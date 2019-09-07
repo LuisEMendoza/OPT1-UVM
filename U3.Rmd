@@ -1,0 +1,14 @@
+---
+title: "Métodos de solución"
+---
+
+Se abordarán tres métodos de solución para problemas de programación lineal. El primero es el método gráfico, el cual es bastante sencillo y fácil de implementar, con la desventaja de que solo funciona para problemas de dos variables; el segundo será el método __Símplex__, el cual tiene algunas variantes y funciona para cualquier problema, aunque resulta ser largo y por ende, proclive a errores; por último, se verá la solución mediante algún programa informático.
+
+## Método Gráfico
+Para mostrar en qué consiste el método gráfico, veamos una serie de ejercicios de ejemplo:
+
+### Solución única
+El problema tendrá una solución única cuando un solo punto del área factible es la solución óptima. Ese punto óptimo debe ser un vértice del área factible.
+
+#### Ejercicio
+Una empresa fabrica bibliotecas y escritorios, con precios de venta por unidad de $\$9,000$ y $\$10,000$, respectivamente. Para efectuar la producción, la empresa cuenta con una disponibilidad mensual de 700 metros de madera, 800 metros de tubo y 900 pliegos de papel-lija. Se sabe que una biblioteca consume 7 metros de madera, 10 metros de tubo y 6 pliegos de papel-lija; mientras el escritorio necesita 10 metros de madera, 8 metros de tubo y 15 pliegos de papel-lija. ¿Cuántas bibliotecas y cuántos escritorios debe fabricar?

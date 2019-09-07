@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Planteamiento de modelos de programación lineal</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Inicio</a>
+</li>
+<li>
+  <a href="Ayuda.html">¿Cómo utilizar estos apuntes?</a>
+</li>
+<li>
+  <a href="GitHub-en-RStudio.html">Git y GitHub en RStudio</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Contenido
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Unidades</li>
+    <li>
+      <a href="U1.html">Unidad 1</a>
+    </li>
+    <li>
+      <a href="U2.html">Unidad 2</a>
+    </li>
+    <li>
+      <a href="U3.html">Unidad 3</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Planteamiento de modelos de programación lineal</h1>
+
+</div>
+
+
+<p>Veamos otro ejemplo de problema del tipo <em>producción</em>. Sigue siendo un caso en el cual se tiene que encontrar la combinación de productos elaborados con recursos limitados que aumentan las utilidades para nuestra organización.</p>
+<div id="problema-de-mezcla-de-productos" class="section level2">
+<h2>Problema de mezcla de productos</h2>
+<p>Una compañía mueblera fabrica pupitres, sillas y mesas, para las cuales ha establecido que aportan una contribución a las utilidades de <span class="math inline">\(\$5,000\)</span>, <span class="math inline">\(\$6,000\)</span> y <span class="math inline">\(\$3,000\)</span> por unidad, respectivamente. Para la producción de dichos artículos se cuenta con una disponibilidad semanal de 150 metros de madera, 120 metros de tubo y 200 horas-hombre de trabajo. Plantee el modelo matemático de programación lineal si sabe que para producir un pupitre necesita 5 metros de madera, 3 de tubo y 4 horas; para la silla requiere 3 metros de madera, 4 de tubo y 5 horas; y para la mesa se utilizan 2 metros de madera, 3 de tubo y una hora de trabajo.</p>
+<div id="solucion" class="section level3">
+<h3>Solución</h3>
+<p>Debemos organizar la información de manera que resulte más clara. Para ello, generemos una tabla con la misma:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Recurso</th>
+<th align="center">Pupitres</th>
+<th align="center">Sillas</th>
+<th align="center">Mesas</th>
+<th align="center">Disponibilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Madera</td>
+<td align="center">5m</td>
+<td align="center">3m</td>
+<td align="center">2m</td>
+<td align="center">150 metros</td>
+</tr>
+<tr class="even">
+<td align="left">Tubo</td>
+<td align="center">3m</td>
+<td align="center">4m</td>
+<td align="center">3m</td>
+<td align="center">120 metros</td>
+</tr>
+<tr class="odd">
+<td align="left">Horas-Hombre</td>
+<td align="center">4h</td>
+<td align="center">5h</td>
+<td align="center">1h</td>
+<td align="center">200 horas</td>
+</tr>
+<tr class="even">
+<td align="left">Utilidad/unidad</td>
+<td align="center"><span class="math inline">\(\$5,000\)</span></td>
+<td align="center"><span class="math inline">\(\$6,000\)</span></td>
+<td align="center"><span class="math inline">\(\$3,000\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">Variables</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center"><span class="math inline">\(x_3\)</span></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Cada producto es una variable. Así que cada una representa la cantidad de unidades a producir por semana.</p>
+<p>La función objetivo representará el deseo de la empresa de maximizar sus ganancias, así que quedará de la siguiente manera:</p>
+<p><span class="math display">\[
+max: Z=5000x_1+6000x_2+3000x_3
+\]</span></p>
+<p>Las limitaciones de los recursos deben representarse con restricciones, con una por cada materia prima: <span class="math display">\[
+5x_1+3x_2+2x_3 \leq 150 \ metros\ de \ madera \\
+3x_1+4x_2+3x_3 \leq 120 \ metros\ de\ tubo \\
+4x_1+5x_2+x_3 \leq 200\ horas-hombre
+\]</span> No olvidemos las restricciones de no negatividad: <span class="math display">\[
+x_1,x_2,x_3 \geq 0
+\]</span></p>
+<p>Ahora bien, la mueblería acaba de imponer ciertas restricciones a la fabricación. Después de entablar comunicación con el departamento de Ventas, se ha concluído que se deberán producir un máximo de 20 pupitres y un mínimo de diez mesas. También indica que por cada tres mesas tienen que fabricarse trece sillas. ¿Cómo podría expresar la nueva política en su modelo matemático?</p>
+<p>Las tres restricciones adicionales pueden expresarse como sigue. En el caso de la primera, basta con indicar que la variable que corresponde a los pupitres (<span class="math inline">\(x_1\)</span>) no debe ser mayor a 20. Quedaría así: <span class="math display">\[
+x_1 \leq 20
+\]</span> La segunda debe indicar que las mesas (<span class="math inline">\(x_3\)</span>) deben ser al menos 10: <span class="math display">\[
+x_3 \geq 10
+\]</span> La tercera es un poco más compleja, pero puede construirse con un poco de lógica. Sabemos que cada tres mesas (<span class="math inline">\(3x_2\)</span>) implican trece sillas (<span class="math inline">\(13x_2\)</span>). Por lo tanto, las igualamos: <span class="math display">\[
+13x_2=3x_3
+\]</span> Esta es una buena oportunidad para mencionar que las expresiones que contiene un problema de programación lineal deben tener solo constantes en su lado derecho, tal como todas las que habíamos formulado, a excepción, precisamente de esta última. Así que, mediante un despeje, pasamos <span class="math inline">\(3x_3\)</span> al lado izquierdo. La restricción quedaría finalmente así: <span class="math display">\[
+13x_2-3x_3=0
+\]</span></p>
+<p>El modelo completo quedaría entonces así: <span class="math display">\[
+max: Z=5000x_1+6000x_2+3000x_3 \\
+\ \\
+sujeto\ a:\\
+5x_1+3x_2+2x_3 \leq 150  \\
+3x_1+4x_2+3x_3 \leq 120  \\
+4x_1+5x_2+x_3 \leq 200\\
+x_1 \leq 20\\
+x_3 \geq 10 \\
+13x_2-3x_3=0\\
+x_1,x_2,x_3 \geq 0
+\]</span></p>
+</div>
+</div>
+<div id="problema-de-la-mezcla-dietetica" class="section level2">
+<h2>Problema de la mezcla dietética</h2>
+<p>Usted está cargo de una guardería, y por lo tanto, tiene que diseñar los platillos para los niños. Su nutricionista le ha informado que cada niño debe recibir diariamente un mínimo de 25 miligramos de calcio, 15mg de hierro y 24mg de vitaminas, pero no más de 30mg. Los niños son alimentados con leche cuyo valor es de <span class="math inline">\(\$10\)</span> por litro, huevos que cuestan <span class="math inline">\(\$1.50\)</span> cada uno y compotas con valor de <span class="math inline">\(\$6\)</span> por frasco. Contiene el modelo de programación lineal si sabe que un litro de leche contiene 2mg de calcio, 3mg de hierro y 1mg de vitaminas; un huevo contiene 4mg de calcio, 5mg de hierro y 3mg de vitaminas; y cada frasco de compota aporta 6mg de calcio, 1mg de hierro y 2mg de vitaminas.</p>
+</div>
+<div id="problema-de-mezcla-de-componentes" class="section level2">
+<h2>Problema de mezcla de componentes</h2>
+<p>Una siderúrgica dispone de un horno, el cual debe ser cargado con dos toneladas de materiales para elaborar una aleación especial. Dicha aleación debe contener mínimo el 15% de cobre pero no más del 20% y máximo 17% de fósforo. Para cargar el horno se cuenta con minerales de hierro, tungsteno, níquel y carbono. Mediante un estudio químico se estableció que el hierro contiene 7% de cobre y 9% de fósforo, el tungsteno contiene 11% de cobre y 3% de fósforo, el níquel 19% de cobre y el 8% de fósforo; mientras que el carbono contiene 4% de cobre y 17% de fósforo. Plantee el modelo si sabe que el material cuesta <span class="math inline">\(\$1,000\)</span> por kilogramo de hierro, <span class="math inline">\(\$2000\)</span> la libra de tungsteno, <span class="math inline">\(\$3000\)</span> el níquel por kilogramo y <span class="math inline">\(\$1700\)</span> la libra de carbono.</p>
+</div>
+<div id="problema-de-distribucion" class="section level2">
+<h2>Problema de distribución</h2>
+<p>Una cervecera produce en tres plantas ubicadas en Zacatecas, Torreón y Guadalajara, las cuales tienen la capacidad de producir 5,000, 3,500 y 6,000 cajas por semana, respectivamente. La cerveza se vende a través de cuatro distribuidores que se encuentran ubicados en Guanajuato, Monterrey, Chihuahua y Ciudad de México, los cuales han determinado su demanda semanal en 2,000, 3,200, 1,700 y 1,800 cajas. Plantee el modelo si sabe que llevar una caja de Zacatecas a Guanajuato cuesta <span class="math inline">\(\$0.90\)</span>, a Monterrey <span class="math inline">\(\$7.50\)</span>, a Chihuahua <span class="math inline">\(\$9.00\)</span> y a CDMX <span class="math inline">\(\$6.70\)</span>; el costo de transporte de Torreón a Guanajuato es de <span class="math inline">\(\$7.80\)</span>, a Monterrey es de <span class="math inline">\(\$4\)</span>, a Chihuahua es de <span class="math inline">\(\$6.50\)</span> y a CDMX es de <span class="math inline">\(\$8.50\)</span>; mientras que transportar cada caja desde Guadalajara hacia Guanajuato cuesta <span class="math inline">\(\$1.70\)</span>, a Monterrey <span class="math inline">\(\$14.70\)</span>, a Chihuahua <span class="math inline">\(\$15.00\)</span> y a CDMX <span class="math inline">\(\$6.50\)</span>.</p>
+</div>
+<div id="problema-de-asignacion" class="section level2">
+<h2>Problema de asignación</h2>
+<p>El ayuntamiento de cierta ciudad está interesada en generar la manera más barata de asignar 4 proyectos a 4 contratistas diferentes. Se debe asignar de manera garantizada un proyecto a cada contratista, así que construya el modelo que permita hacerlo al costo más bajo. Los presupuestos resumidos por contratista se muestran a continuación:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Proyecto</th>
+<th align="center">Contratista 1</th>
+<th align="center">Contratista 2</th>
+<th align="center">Contratista 3</th>
+<th align="center">Contratista 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Parque</td>
+<td align="center">50</td>
+<td align="center">60</td>
+<td align="center">48</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="left">Edificio</td>
+<td align="center">35</td>
+<td align="center">30</td>
+<td align="center">33</td>
+<td align="center">39</td>
+</tr>
+<tr class="odd">
+<td align="left">Puente</td>
+<td align="center">40</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">41</td>
+</tr>
+<tr class="even">
+<td align="left">Túnel</td>
+<td align="center">27</td>
+<td align="center">30</td>
+<td align="center">25</td>
+<td align="center">29</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
