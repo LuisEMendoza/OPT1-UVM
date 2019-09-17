@@ -29,4 +29,58 @@ Produce baldosas y tabletas, generando utilidades por $\$5,000$ y $\$4,000$ por 
 ### Solución a problemas de minimización
 
 #### Solución única óptima
+
 Una empresa dedicada a criar caballos ha establecido que es necesario suministrar diariamente a cada uno un mínimo de 200mg de vitamina A, un mínimo de 160mg de vitamina B y un mínimo de 150mg de vitamina C. Los animales son alimentados con matas de pasto y mineral, los cuales cuestan $\$300$ por mata y $\$500$ por libra de mineral. ¿Qué cantidad de cada alimento debe suministrarse a cada caballo diariamente? Se sabe que una mata de pasto aporta 4mg de vitamina A, 2mg de vitamina B y 5mg de vitamina C; mientras que la libra de mineral aporta 5mg de vitamina A, 8mg de vitamina B y 3mg de vitamina C.
+
+#### Solución óptima múltiple
+
+Una empresa de combustibles produce gasolina y ACPM a un costo de $\$20.00$ y $\$40.00$ respectivamente. Para producir un galón de gasolina se requieren 4 horas-hombre, 6 horas-máquina y 8 litros de petróleo. Para cada galón de ACPM son necesarias 8 horas-hombre, 5 horas-máquina y 10 litros de petróleo. Deben consumirse al menos 320 horas-hombre y 300 horas-máquina al mes. ¿Qué cantidad debe producirse si se cuenta con 800 litros mensuales de petróleo?
+
+#### Solución no acotada
+
+La industria siderúrgica un tipo de aleación especial compuesta por sílice y aluminio; los cuales compra a $\$30.00$ y $\$50.00$ por kilogramo, respectivamente. La utilización de un kilogramo de sílice requiere el consumo de 5 miligramos de material radioactivo y dos litros de agua; por otro lado, producir un kilogramo de aluminio requiere consumir 4 miligramos de material radioactivo y produce 3 litros de agua. Por políticas de la empresa, deben consumirse al menos 20 miligramos de material radioactivo y se cuenta con 6 litros de agua. ¿Qué cantidad de sílice y aluminio se debe utilizar si se sabe que como máximo deben utilizarse 8 kilogramos de sílice y que el gobierno subsidia con $\$150.00$ la utilización de cada kilogramo de aluminio?
+
+#### Problema sin solución
+
+Una empresa zapatera ha establecido que venderá como máximo 30 pares y como mínimo 40 pares de tenis. Para la producción de estos artículos se cuenta con una disponibilidad de mensual de 180 metros de cuero se ha establecido que el costo de producción de cada par de zapatos es de $\$500.00$ y de cada par de tenis de $\$400$.
+
+#### Solución degenerada
+
+Una empresa produce vidrios florentinos y martillados con un costo de $\$200.00$ y $\$400.00$ por unidad, respectivamente. Se cuenta con una disponibilidad semanal de 240 horas-hombre, 420 horas-horno y 480 unidades de materia prima. Establezca qué cantidad de cada tipo se debe fabricar a fin de minimizar el costo de producción si se sabe que para cada vidrio florentino se requieren 8 horas-hombre, 6 horas en el horno y 16 unidades de materia prima; mientras que para el vidrio martillado son necesarias 3 horas-hombre, 7 horas-horno y 6 unidades de materia prima. Se estima que se venderán mínimo 40 vidrios entre los dos tipos.
+
+## Método simplex
+
+Para resolver un modelo de programación lineal mediante el método simplex, se deben tomar en cuenta los siguientes pasos:
+
+1. Despejamos la función objetivo, de tal manera que no queden variables del lado derecho de la igualdad.
+2. Transformamos todas las restricciones a igualdades de la siguiente manera:
+  - Restricción $\leq$: sumamos una variable de holgura.
+  - Restricción $\geq$: restamos una variable de sobrante y sumamos una variable artificial. Penalizamos la función objetivo restándole la variable artificial y dando a ésta última un coeficiente infinitamente grande, por ejemplo $-MA_1$, donde $M$ tienda al infinito.
+  - Restricción $=$: Sumamos una variable artificial y penalizamos la función objetivo.
+3. Llevamos todos los coeficientes al tablero simplex que se muestra a continuación:
+
+FILA|BASE|Z|$X_i$|$X_{i+1}$|$X_{i+2}$|...|$X_{n}$|$H_i$|$H_{i+1}$|$H_{i+2}$|...|$H_{n}$|CTE
+---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|$a_{0i}$|$a_{0i+1}$|$a_{0i+2}$|...|$a_{0n}$|0|0|0|...|0|0
+1|$H_i$|0|$a_{1i}$|$a_{1i+1}$|$a_{1i+2}$|...|$a_{1n}$|1|0|0|...|0|m
+2|$H_2$|0|$a_{2i}$|$a_{2i+1}$|$a_{2i+2}$|...|$a_{2n}$|0|1|0|...|0|n
+3|$H_3$|0|$a_{3i}$|$a_{3i+1}$|$a_{3i+2}$|...|$a_{3n}$|0|0|1|...|0|o
+...|...|0|...|...|...|...|...|...|...|...|...|...|p
+n|$H_n$|0|$a_{ni}$|$a_{ni+1}$|$a_{ni+2}$|...|$a_{nn}$|0|0|0|...|1|q
+
+  - En la fila 0 colocamos solo los coeficientes de la función objetivo, incluyendo los de las variables agregadas, tanto de holgura y sobrante como artificiales.
+  - En la columna _base_ se escriben las variables básicas, que de arranque, son las agregadas al modelo.
+  - En la fila 1 se colocan los coeficientes de la primera restricción, respetando el orden y la variable correspondiente.
+  - En la fila 2 se colocan los coeficientes de la segunda restricción, y así sucesivamente con todas las demás.
+  - En la columna _CTE_ se escriben las constantes de cada restricción.
+4. Evaluamos si la solución actual es la óptima. Lo sabremos si no existe ningún coeficiente negativo en la fila 0 (la de la función objetivo).
+5. En caso de haber coeficientes negativos, debemos comenzar el método. Seleccionamos la variable que entrará a la base (es decir, se volverá solución). Se escoge aquella cuyo coeficiente en la fila 0 es el más negativo. En caso de empate, se resuelve de manera arbitraria. A su columna se le conocerá como __columna pivote__.
+6. Seleccionamos la variable que saldrá de la base (la que dejará de ser parte de la solución). Para ello dividimos el valor de la columna CTE entre el coeficiente de la columna de la variable que entra a base, en la misma fila. Esto se realiza en todas las filas y se selecciona como la variable de salida a aquella cuyo cociente sea el positivo más bajo; esta fila será la __fila pivote__. Cabe reiterar que se excluyen valores nulos y negativos.
+7. Se selecciona el __elemento pivote__. El cual es aquél donde se cruzan la columna de la variable de entrada y la fila de la variable de salida.
+8. El elemento pivote tiene que volverse unitario, dividiendo toda la fila pivote por el coeficiente del mismo elemento.
+9. Todos los elementos de la columna pivote deben volverse nulos, mediante operaciones matriciales (_eliminación de Gauss_).
+10. Repetimos el paso 4. En caso de no encontrarse la solución óptima, debemos repetir el ciclo desde el paso 5.
+
+### Problemas de maximización.
+
+Retomemos el problema de la misma sección correspondiente al método gráfico, aprovechando que ya conocemos su resultado. Construyamos el tablero simplex:
