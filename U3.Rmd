@@ -59,10 +59,10 @@ Para resolver un modelo de programación lineal mediante el método simplex, se 
   - Restricción $=$: Sumamos una variable artificial y penalizamos la función objetivo.
 3. Llevamos todos los coeficientes al tablero simplex que se muestra a continuación:
 
-FILA|BASE|Z|$X_i$|$X_{i+1}$|$X_{i+2}$|...|$X_{n}$|$H_i$|$H_{i+1}$|$H_{i+2}$|...|$H_{n}$|CTE
+FILA|BASE|Z|$X_1$|$X_2$|$X_3$|...|$X_n$|$H_1$|$H_2$|$H_3$|...|$H_n$|CTE
 ---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
 0|-|1|$a_{0i}$|$a_{0i+1}$|$a_{0i+2}$|...|$a_{0n}$|0|0|0|...|0|0
-1|$H_i$|0|$a_{1i}$|$a_{1i+1}$|$a_{1i+2}$|...|$a_{1n}$|1|0|0|...|0|m
+1|$H_1$|0|$a_{1i}$|$a_{1i+1}$|$a_{1i+2}$|...|$a_{1n}$|1|0|0|...|0|m
 2|$H_2$|0|$a_{2i}$|$a_{2i+1}$|$a_{2i+2}$|...|$a_{2n}$|0|1|0|...|0|n
 3|$H_3$|0|$a_{3i}$|$a_{3i+1}$|$a_{3i+2}$|...|$a_{3n}$|0|0|1|...|0|o
 ...|...|0|...|...|...|...|...|...|...|...|...|...|p
@@ -83,4 +83,55 @@ n|$H_n$|0|$a_{ni}$|$a_{ni+1}$|$a_{ni+2}$|...|$a_{nn}$|0|0|0|...|1|q
 
 ### Problemas de maximización.
 
-Retomemos el problema de la misma sección correspondiente al método gráfico, aprovechando que ya conocemos su resultado. Construyamos el tablero simplex:
+Retomemos el problema de la misma sección correspondiente al método gráfico, aprovechando que ya tenemos formulado el modelo y conocemos su resultado. Cambiemos las $x$ por $x_1$ y las $y$ por $x_2$:
+
+$$
+f.o.:max\ Z=9,000x_1+10,000x_2\\
+\\
+\ \\
+s.a.\\
+7x_1+10x_2\leq700\\
+10x_1+8x_2\leq800\\
+6x_1+15x_2\leq900\\
+x_1,x_2\geq0
+$$
+
+Reformulemos al modo simplex el modelo. Comencemos con las restricciones, las cuales son todas del tipo $\leq$. Por lo tanto se agregarán variables de holgura:
+
+$$
+7x_1+10x_2+H_1=700\\
+10x_1+8x_2+H_2=800\\
+6x_1+15x_2+H_3=900
+$$
+
+Ahora nos pasamos a la función objetivo, a la cual hay que agregarle las variables de holgura con coeficientes nulos:
+
+$$
+Z=9,000x_1+10,000x_2+0H_1+0H_2+0H_3
+$$
+
+ Y enseguida despejarla:
+$$
+Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0
+$$
+
+Nuestro modelo completo y preparado para simplex quedaría así:
+
+$$
+Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0\\
+7x_1+10x_2+H_1=700\\
+10x_1+8x_2+H_2=800\\
+6x_1+15x_2+H_3=900
+$$
+
+Construyamos ahora el tablero simplex:
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|-9,000|-10,000|0|0|0|0
+1|$H_1$|0|7|10|1|0|0|700
+2|$H_2$|0|10|8|0|1|0|800
+3|$H_3$|0|6|15|0|0|1|900
+
+
+
+
