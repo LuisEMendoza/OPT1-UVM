@@ -186,6 +186,8 @@ En este tipo de problemas se vuelve recomendable utilizar otra nomenclatura para
 
 ![](images/018-transporte.png)
 
+La función objetivo se construye
+
 ## Problema de asignación
 El ayuntamiento de cierta ciudad está interesada en generar la manera más barata de asignar 4 proyectos a 4 contratistas diferentes. Se debe asignar de manera garantizada un proyecto a cada contratista, así que construya el modelo que permita hacerlo al costo más bajo. Los presupuestos resumidos por contratista se muestran a continuación:
 
