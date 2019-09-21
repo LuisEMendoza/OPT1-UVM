@@ -153,7 +153,7 @@ Las restricciones deben garantizar el contenido de los materiales en las aleacio
 $$
 min\ cobre\ 0.07x_1+0.11x_2+0.19x_3+0.04x_4\geq(2,000)(0.15)\\
 max\ cobre\ 0.07x_1+0.11x_2+0.19x_3+0.04x_4\leq(2,000)(0.20)\\
-max\ fósforo 0.09x_1+0.03x_2+0.08x_3+0.17x_4\leq(2,000)(0.17)
+max\ fósforo\ 0.09x_1+0.03x_2+0.08x_3+0.17x_4\leq(2,000)(0.17)
 $$
 
 Recordemos también que el horno debe ser cargado con las dos toneladas, por lo que agregamos la restricción que lo indique:
