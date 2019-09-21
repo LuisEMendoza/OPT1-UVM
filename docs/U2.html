@@ -386,7 +386,10 @@ div.tocify {
 </div>
 
 
+<div id="introduccion" class="section level2">
+<h2>Introducción</h2>
 <p>Veamos otro ejemplo de problema del tipo <em>producción</em>. Sigue siendo un caso en el cual se tiene que encontrar la combinación de productos elaborados con recursos limitados que aumentan las utilidades para nuestra organización.</p>
+</div>
 <div id="problema-de-mezcla-de-productos" class="section level2">
 <h2>Problema de mezcla de productos</h2>
 <p>Una compañía mueblera fabrica pupitres, sillas y mesas, para las cuales ha establecido que aportan una contribución a las utilidades de <span class="math inline">\(\$5,000\)</span>, <span class="math inline">\(\$6,000\)</span> y <span class="math inline">\(\$3,000\)</span> por unidad, respectivamente. Para la producción de dichos artículos se cuenta con una disponibilidad semanal de 150 metros de madera, 120 metros de tubo y 200 horas-hombre de trabajo. Plantee el modelo matemático de programación lineal si sabe que para producir un pupitre necesita 5 metros de madera, 3 de tubo y 4 horas; para la silla requiere 3 metros de madera, 4 de tubo y 5 horas; y para la mesa se utilizan 2 metros de madera, 3 de tubo y una hora de trabajo.</p>
@@ -479,11 +482,159 @@ x_1,x_2,x_3 \geq 0
 </div>
 <div id="problema-de-la-mezcla-dietetica" class="section level2">
 <h2>Problema de la mezcla dietética</h2>
-<p>Usted está cargo de una guardería, y por lo tanto, tiene que diseñar los platillos para los niños. Su nutricionista le ha informado que cada niño debe recibir diariamente un mínimo de 25 miligramos de calcio, 15mg de hierro y 24mg de vitaminas, pero no más de 30mg. Los niños son alimentados con leche cuyo valor es de <span class="math inline">\(\$10\)</span> por litro, huevos que cuestan <span class="math inline">\(\$1.50\)</span> cada uno y compotas con valor de <span class="math inline">\(\$6\)</span> por frasco. Contiene el modelo de programación lineal si sabe que un litro de leche contiene 2mg de calcio, 3mg de hierro y 1mg de vitaminas; un huevo contiene 4mg de calcio, 5mg de hierro y 3mg de vitaminas; y cada frasco de compota aporta 6mg de calcio, 1mg de hierro y 2mg de vitaminas.</p>
+<p>Usted está cargo de una guardería, y por lo tanto, tiene que diseñar los platillos para los niños. Su nutricionista le ha informado que cada niño debe recibir diariamente un mínimo de 25 miligramos de calcio, 15mg de hierro y 24mg de vitaminas, pero no más de 30mg. Los niños son alimentados con leche cuyo valor es de <span class="math inline">\(\$10\)</span> por litro, huevos que cuestan <span class="math inline">\(\$1.50\)</span> cada uno y compotas con valor de <span class="math inline">\(\$6\)</span> por frasco. Construya el modelo de programación lineal si sabe que un litro de leche contiene 2mg de calcio, 3mg de hierro y 1mg de vitaminas; un huevo contiene 4mg de calcio, 5mg de hierro y 3mg de vitaminas; y cada frasco de compota aporta 6mg de calcio, 1mg de hierro y 2mg de vitaminas. Determine pues, cuánta cantidad de cada alimento debe preparar para cumplir los requerimientos nutricionales.</p>
+<div id="solucion-1" class="section level3">
+<h3>Solución</h3>
+<p>De nuevo es muy recomendable que se organicen los datos en un formato tabular que muestre el nutriente, el contenido de éste en cada alimento y los requerimientos mínimos. También se debe incluir el costo de cada alimento.</p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">NUTRIENTE</th>
+<th align="center">CONTENIDO EN LECHE</th>
+<th align="center">CONTENIDO EN HUEVOS</th>
+<th align="center">CONTENIDO EN COMPOTA</th>
+<th align="center">REQUERIMIENTO DIARIO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Calcio</td>
+<td align="center">2mg</td>
+<td align="center">4mg</td>
+<td align="center">6mg</td>
+<td align="center">MIN 25</td>
+</tr>
+<tr class="even">
+<td align="left">Hierro</td>
+<td align="center">3mg</td>
+<td align="center">5mg</td>
+<td align="center">1mg</td>
+<td align="center">MIN 15</td>
+</tr>
+<tr class="odd">
+<td align="left">Vitaminas</td>
+<td align="center">1mg</td>
+<td align="center">3mg</td>
+<td align="center">2mg</td>
+<td align="center">MIN 24, MAX 30</td>
+</tr>
+<tr class="even">
+<td align="left">Costo</td>
+<td align="center">10.00</td>
+<td align="center">1.50</td>
+<td align="center">6.00</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Es notorio que las variables en este caso son los alimentos, ya que son sus cantidades las que debemos modificar para conseguir satisfacer los requerimientos. Por esa razón, definimos la leche como <span class="math inline">\(x_1\)</span>, los huevos como <span class="math inline">\(x_2\)</span> y la compota como <span class="math inline">\(x_3\)</span>.</p>
+<p>En delante definimos la función objetivo, la cual debe estar relacionada con las variables y sus costos asociados:</p>
+<p><span class="math display">\[
+min: Z=10x_1+1.50x_2+6x_3
+\]</span></p>
+<p>Definimos las restricciones, las cuales deben consistir en una por cada nutriente e indicar su contenido en cada alimento y lo que se debe cubrir con la combinación de los tres alimentos en sí:</p>
+<p><span class="math display">\[
+2x_1+4x_2+6x_3\geq25\\
+3x_1+5x_2+x_3\geq15\\
+x_1+3x_2+2x_3\geq24\\
+x_1+3x_2+2x_3\leq30
+\]</span></p>
+<p>Notemos que la tercera y cuarta restricciones se refieren al mismo nutriente (las vitaminas), se debe a que existen dos condiciones que se deben cubrir: garantizar que los niños reciban al menos 24mg pero no más de 30.</p>
+<div id="modelo-completo" class="section level4">
+<h4>Modelo completo</h4>
+<p>El modelo listo queda de la siguiente manera:</p>
+<p><span class="math display">\[
+min: Z=10x_1+1.50x_2+6x_3\\
+\ \\
+sujeto\ a:\\
+2x_1+4x_2+6x_3\geq25\\
+3x_1+5x_2+x_3\geq15\\
+x_1+3x_2+2x_3\geq24\\
+x_1+3x_2+2x_3\leq30\\
+x_1, x_2, x_3 \geq0
+\]</span></p>
+</div>
+</div>
 </div>
 <div id="problema-de-mezcla-de-componentes" class="section level2">
 <h2>Problema de mezcla de componentes</h2>
-<p>Una siderúrgica dispone de un horno, el cual debe ser cargado con dos toneladas de materiales para elaborar una aleación especial. Dicha aleación debe contener mínimo el 15% de cobre pero no más del 20% y máximo 17% de fósforo. Para cargar el horno se cuenta con minerales de hierro, tungsteno, níquel y carbono. Mediante un estudio químico se estableció que el hierro contiene 7% de cobre y 9% de fósforo, el tungsteno contiene 11% de cobre y 3% de fósforo, el níquel 19% de cobre y el 8% de fósforo; mientras que el carbono contiene 4% de cobre y 17% de fósforo. Plantee el modelo si sabe que el material cuesta <span class="math inline">\(\$1,000\)</span> por kilogramo de hierro, <span class="math inline">\(\$2000\)</span> la libra de tungsteno, <span class="math inline">\(\$3000\)</span> el níquel por kilogramo y <span class="math inline">\(\$1700\)</span> la libra de carbono.</p>
+<p>Una siderúrgica dispone de un horno, el cual debe ser cargado con dos toneladas de materiales para elaborar una aleación especial. Dicha aleación debe contener mínimo el 15% de cobre pero no más del 20% y máximo 17% de fósforo. Para cargar el horno se cuenta con minerales de hierro, tungsteno, níquel y carbono. Mediante un estudio químico se estableció que el hierro contiene 7% de cobre y 9% de fósforo, el tungsteno contiene 11% de cobre y 3% de fósforo, el níquel 19% de cobre y el 8% de fósforo; mientras que el carbono contiene 4% de cobre y 17% de fósforo. Plantee el modelo si sabe que el material cuesta <span class="math inline">\(\$1,000\)</span> por kilogramo de hierro, <span class="math inline">\(\$2,000\)</span> la libra de tungsteno, <span class="math inline">\(\$3,000\)</span> el níquel por kilogramo y <span class="math inline">\(\$1,700\)</span> la libra de carbono.</p>
+<div id="solucion-2" class="section level3">
+<h3>Solución</h3>
+<p>Comencemos elaborando la tabla, pero antes notemos que la unidad de peso utilizada en el tungsteno y el carbono es la libra: hay que transformarla a kilogramos, siendo aproximadamente igual a medio kilo. En la tabla se escribieron los costos por kilogramo.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">MATERIAL</th>
+<th align="center">HIERRO</th>
+<th align="center">TUNGSTENO</th>
+<th align="center">NÍQUEL</th>
+<th align="center">CARBONO</th>
+<th align="center">REQUISITOS DE CALIDAD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Cobre</td>
+<td align="center">7%</td>
+<td align="center">11%</td>
+<td align="center">19%</td>
+<td align="center">4%</td>
+<td align="center">min 15% max 20%</td>
+</tr>
+<tr class="even">
+<td align="left">Fósforo</td>
+<td align="center">9%</td>
+<td align="center">3%</td>
+<td align="center">8%</td>
+<td align="center">17%</td>
+<td align="center">max 17%</td>
+</tr>
+<tr class="odd">
+<td align="left">Costos/kilo</td>
+<td align="center">1,000</td>
+<td align="center">4,000</td>
+<td align="center">3,000</td>
+<td align="center">3,400</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Lo que debemos definir es la cantidad de hierro, tungsteno, níquel y carbono que se debe utilizar Por lo tanto, las variables deben referirse a los kilogramos de estos:</p>
+<p><span class="math inline">\(x_1=\)</span> kilos de hierro a usar <span class="math inline">\(x_2=\)</span> kilos de tungsteno <span class="math inline">\(x_3=\)</span> kilos de níquel <span class="math inline">\(x_4=\)</span> kilos de carbono</p>
+<p>La función objetivo debe referirse a los costos de los materiales comprados, siendo la minimización lo que se persigue:</p>
+<p><span class="math display">\[
+min:Z=1,000x_1+4,000x_2+3,000x_3+3,400x_4
+\]</span></p>
+<p>Las restricciones deben garantizar el contenido de los materiales en las aleaciones. Por lo tanto, tomamos cobre y multiplicamos el porcentaje de contenido de cada material por los kilos, enseguida multiplicamos el porcentaje necesario como requisito de calidad por la cantidad de materia prima que se vierte al horno (dos toneladas). Lo mismo se realiza en el caso del fósforo. Las restricciones quedan entonces de la siguiente manera:</p>
+<p><span class="math display">\[
+min\ cobre\ 0.07x_1+0.11x_2+0.19x_3+0.04x_4\geq(2,000)(0.15)\\
+max\ cobre\ 0.07x_1+0.11x_2+0.19x_3+0.04x_4\leq(2,000)(0.20)\\
+max\ fósforo 0.09x_1+0.03x_2+0.08x_3+0.17x_4\leq(2,000)(0.17)
+\]</span></p>
+<p>Recordemos también que el horno debe ser cargado con las dos toneladas, por lo que agregamos la restricción que lo indique:</p>
+<p><span class="math display">\[
+x_1+x_2+x_3+x_4=2,000
+\]</span></p>
+<p>El modelo completo debe quedar de la siguiente manera:</p>
+<p><span class="math display">\[
+min:Z=1,000x_1+4,000x_2+3,000x_3+3,400x_4\\
+\ \\
+sujeto\ a:\\
+0.07x_1+0.11x_2+0.19x_3+0.04x_4\geq(2,000)(0.15)\\
+0.07x_1+0.11x_2+0.19x_3+0.04x_4\leq(2,000)(0.20)\\
+0.09x_1+0.03x_2+0.08x_3+0.17x_4\leq(2,000)(0.17)\\
+x_1+x_2+x_3+x_4=2,000\\
+x_1,x_2,x_3,x_4\geq0
+\]</span></p>
+</div>
 </div>
 <div id="problema-de-distribucion" class="section level2">
 <h2>Problema de distribución</h2>

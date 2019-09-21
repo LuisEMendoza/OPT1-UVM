@@ -6,6 +6,7 @@ output:
     toc_float: true
 ---
 
+## Introducción
 La Programación Lineal puede considerarse como una constante disputa entre actividades por recursos generalmente limitados, con el objetivo de obtener el mejor rendimiento. Este último podemos entenderlo de dos maneras:  
 
 - __Maximización__: cuando se desea obtener la mayor utilidad o ganancia posible.
@@ -13,7 +14,7 @@ La Programación Lineal puede considerarse como una constante disputa entre acti
 
 Para comprender mejor lo que es la programación lineal, veamos el siguiente ejemplo:
 
-## Ejemplo
+### Ejemplo de un problema
 Una carpintería produce sillas, mesas y escritorios cuyas contribuciones a las ganancias de la misma son de \$5,000, \$8,000 y $6,000 por unidad, respectivamente.
 
 Para la producción de estos artículos la compañía cuenta con una disponibilidad semanal de 100 metros de madera, 150 metros de tubo y 120 horas de mano de obra (en horas-hombre).
@@ -42,6 +43,8 @@ Tubo    | 3m    | 6m   | 4m         | 150 m
 Mano de obra | 4 hr | 3 hr | 3 hr   | 120 hr
 Utilidad | $5,000 | $8,000 | $6,000 | 
 Variable | $x_1$ | $x_2$ | $x_3$ |
+
+## Modelo de programación lineal
 
 Con lo anterior, podemos construir un modelo de programación lineal que represente este proceso. Tomando en cuenta que, por ejemplo, la variable $x_1$ se refiere a la cantidad de sillas a producir ($x_2$ la cantidad de mesas y $x_3$ la de escritorios), y el objetivo es incrementar al máximo posible la utilidad total de la organización, la expresión matemática que nos permite representar este hecho quedaría de la siguiente forma:
 $$
