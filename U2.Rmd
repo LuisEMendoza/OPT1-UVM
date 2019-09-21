@@ -1,5 +1,9 @@
 ---
 title: "Planteamiento de modelos de programación lineal"
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 Veamos otro ejemplo de problema del tipo _producción_. Sigue siendo un caso en el cual se tiene que encontrar la combinación de productos elaborados con recursos limitados que aumentan las utilidades para nuestra organización.

@@ -1,5 +1,9 @@
 ---
 title: "Métodos de solución"
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 Se abordarán tres métodos de solución para problemas de programación lineal. El primero es el método gráfico, el cual es bastante sencillo y fácil de implementar, con la desventaja de que solo funciona para problemas de dos variables; el segundo será el método __Símplex__, el cual tiene algunas variantes y funciona para cualquier problema, aunque resulta ser largo y por ende, proclive a errores; por último, se verá la solución mediante algún programa informático.
