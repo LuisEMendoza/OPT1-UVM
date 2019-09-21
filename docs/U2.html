@@ -587,7 +587,7 @@ x_1, x_2, x_3 \geq0
 <td align="center">11%</td>
 <td align="center">19%</td>
 <td align="center">4%</td>
-<td align="center">min 15% max 20%</td>
+<td align="center">MIN 15%, MAX 20%</td>
 </tr>
 <tr class="even">
 <td align="left">Fósforo</td>
@@ -595,7 +595,7 @@ x_1, x_2, x_3 \geq0
 <td align="center">3%</td>
 <td align="center">8%</td>
 <td align="center">17%</td>
-<td align="center">max 17%</td>
+<td align="center">MAX 17%</td>
 </tr>
 <tr class="odd">
 <td align="left">Costos/kilo</td>
@@ -642,6 +642,14 @@ x_1,x_2,x_3,x_4\geq0
 <div id="problema-de-distribucion" class="section level2">
 <h2>Problema de distribución</h2>
 <p>Una cervecera produce en tres plantas ubicadas en Zacatecas, Torreón y Guadalajara, las cuales tienen la capacidad de producir 5,000, 3,500 y 6,000 cajas por semana, respectivamente. La cerveza se vende a través de cuatro distribuidores que se encuentran ubicados en Guanajuato, Monterrey, Chihuahua y Ciudad de México, los cuales han determinado su demanda semanal en 2,000, 3,200, 1,700 y 1,800 cajas. Plantee el modelo si sabe que llevar una caja de Zacatecas a Guanajuato cuesta <span class="math inline">\(\$0.90\)</span>, a Monterrey <span class="math inline">\(\$7.50\)</span>, a Chihuahua <span class="math inline">\(\$9.00\)</span> y a CDMX <span class="math inline">\(\$6.70\)</span>; el costo de transporte de Torreón a Guanajuato es de <span class="math inline">\(\$7.80\)</span>, a Monterrey es de <span class="math inline">\(\$4\)</span>, a Chihuahua es de <span class="math inline">\(\$6.50\)</span> y a CDMX es de <span class="math inline">\(\$8.50\)</span>; mientras que transportar cada caja desde Guadalajara hacia Guanajuato cuesta <span class="math inline">\(\$1.70\)</span>, a Monterrey <span class="math inline">\(\$14.70\)</span>, a Chihuahua <span class="math inline">\(\$15.00\)</span> y a CDMX <span class="math inline">\(\$6.50\)</span>.</p>
+<div id="solucion-3" class="section level3">
+<h3>Solución</h3>
+<p>En este tipo de problemas se vuelve recomendable utilizar otra nomenclatura para nombrar las variables, una que nos permita identificar tanto el origen como el destino. Para ello haremos uso de dos subíndices en la variable: <span class="math inline">\(x_{ij}\)</span>, donde <span class="math inline">\(x\)</span> es la cantidad de cerveza que se produce en <span class="math inline">\(i\)</span>, que es el origen y se transporta a <span class="math inline">\(j\)</span>, que es el destino. Nuestra planta <em>1</em> es Zacatecas, la <em>2</em> es Torreón y la <em>3</em> es Guadalajara. Por otro lado, Guanajuato será el distribuidor <em>1</em>, Monterrey el <em>2</em>, Chihuahua el <em>3</em> y la Ciudad de México el <em>4</em>. Así, por ejemplo, la cantidad de cerveza que se debe mover de Torreón a Guanajuato es <span class="math inline">\(x_{21}\)</span>. Lo ideal en estos problemas es dibujar un diagrama que facilite la visualización de todas las rutas, que en este caso resultan ser 12: <span class="math inline">\((3\ orígenes)(4\ destinos)=12\ rutas\)</span>. En dicho diagrama incluiremos las capacidades (ofertas) de cada planta y las demandas de cada distribuidor. Tanto plantas como distribuidores son representados como nodos.</p>
+<div class="figure">
+<img src="images/018-transporte.png" alt="Todas las rutas posibles en este problema" />
+<p class="caption">Todas las rutas posibles en este problema</p>
+</div>
+</div>
 </div>
 <div id="problema-de-asignacion" class="section level2">
 <h2>Problema de asignación</h2>
