@@ -131,8 +131,8 @@ Comencemos elaborando la tabla, pero antes notemos que la unidad de peso utiliza
 
 MATERIAL|HIERRO|TUNGSTENO|NÍQUEL|CARBONO|REQUISITOS DE CALIDAD
 :---|:---:|:---:|:---:|:---:|:---:
-Cobre|7%|11%|19%|4%|min 15% max 20%
-Fósforo|9%|3%|8%|17%|max 17%
+Cobre|7%|11%|19%|4%|MIN 15%, MAX 20%
+Fósforo|9%|3%|8%|17%|MAX 17%
 Costos/kilo|1,000|4,000|3,000|3,400
 
 Lo que debemos definir es la cantidad de hierro, tungsteno, níquel y carbono que se debe utilizar Por lo tanto, las variables deben referirse a los kilogramos de estos:
@@ -180,6 +180,11 @@ $$
 
 ## Problema de distribución
 Una cervecera produce en tres plantas ubicadas en Zacatecas, Torreón y Guadalajara, las cuales tienen la capacidad de producir 5,000, 3,500 y 6,000 cajas por semana, respectivamente. La cerveza se vende a través de cuatro distribuidores que se encuentran ubicados en Guanajuato, Monterrey, Chihuahua y Ciudad de México, los cuales han determinado su demanda semanal en 2,000, 3,200, 1,700 y 1,800 cajas. Plantee el modelo si sabe que llevar una caja de Zacatecas a Guanajuato cuesta $\$0.90$, a Monterrey $\$7.50$, a Chihuahua $\$9.00$ y a CDMX $\$6.70$; el costo de transporte de Torreón a Guanajuato es de $\$7.80$, a Monterrey es de $\$4$, a Chihuahua es de $\$6.50$ y a CDMX es de $\$8.50$; mientras que transportar cada caja desde Guadalajara hacia Guanajuato cuesta $\$1.70$, a Monterrey $\$14.70$, a Chihuahua $\$15.00$ y a CDMX $\$6.50$.
+
+### Solución
+En este tipo de problemas se vuelve recomendable utilizar otra nomenclatura para nombrar las variables, una que nos permita identificar tanto el origen como el destino. Para ello haremos uso de dos subíndices en la variable: $x_{ij}$, donde $x$ es la cantidad de cerveza que se produce en $i$, que es el origen y se transporta a $j$, que es el destino. Nuestra planta _1_ es Zacatecas, la _2_ es Torreón y la _3_ es Guadalajara. Por otro lado, Guanajuato será el distribuidor _1_, Monterrey el _2_, Chihuahua el _3_ y la Ciudad de México el _4_. Así, por ejemplo, la cantidad de cerveza que se debe mover de Torreón a Guanajuato es $x_{21}$. Lo ideal en estos problemas es dibujar un diagrama que facilite la visualización de todas las rutas, que en este caso resultan ser 12: $(3\ orígenes)(4\ destinos)=12\ rutas$. En dicho diagrama incluiremos las capacidades (ofertas) de cada planta y las demandas de cada distribuidor. Tanto plantas como distribuidores son representados como nodos.
+
+![Todas las rutas posibles en este problema](images/018-transporte.png)
 
 ## Problema de asignación
 El ayuntamiento de cierta ciudad está interesada en generar la manera más barata de asignar 4 proyectos a 4 contratistas diferentes. Se debe asignar de manera garantizada un proyecto a cada contratista, así que construya el modelo que permita hacerlo al costo más bajo. Los presupuestos resumidos por contratista se muestran a continuación:
