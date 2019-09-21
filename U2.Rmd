@@ -138,8 +138,11 @@ Costos/kilo|1,000|4,000|3,000|3,400
 Lo que debemos definir es la cantidad de hierro, tungsteno, níquel y carbono que se debe utilizar Por lo tanto, las variables deben referirse a los kilogramos de estos:
 
 $x_1=$ kilos de hierro a usar
+
 $x_2=$ kilos de tungsteno
+
 $x_3=$ kilos de níquel
+
 $x_4=$ kilos de carbono
 
 La función objetivo debe referirse a los costos de los materiales comprados, siendo la minimización lo que se persigue:
