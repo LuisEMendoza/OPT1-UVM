@@ -182,11 +182,74 @@ $$
 Una cervecera produce en tres plantas ubicadas en Zacatecas, Torreón y Guadalajara, las cuales tienen la capacidad de producir 5,000, 3,500 y 6,000 cajas por semana, respectivamente. La cerveza se vende a través de cuatro distribuidores que se encuentran ubicados en Guanajuato, Monterrey, Chihuahua y Ciudad de México, los cuales han determinado su demanda semanal en 2,000, 3,200, 1,700 y 1,800 cajas. Plantee el modelo si sabe que llevar una caja de Zacatecas a Guanajuato cuesta $\$0.90$, a Monterrey $\$7.50$, a Chihuahua $\$9.00$ y a CDMX $\$6.70$; el costo de transporte de Torreón a Guanajuato es de $\$7.80$, a Monterrey es de $\$4$, a Chihuahua es de $\$6.50$ y a CDMX es de $\$8.50$; mientras que transportar cada caja desde Guadalajara hacia Guanajuato cuesta $\$1.70$, a Monterrey $\$14.70$, a Chihuahua $\$15.00$ y a CDMX $\$6.50$.
 
 ### Solución
+Armemos la tabla que organice los datos de manera que sea más fácil notar las relaciones entre los mismos:
+
+ORIGEN|GUANAJUATO|MONTERREY|CHIHUAHUA|CDMX|CAPACIDAD
+:---|:---:|:---:|:---:|:---:|:---:
+Zacatecas|0.90|7.50|9.00|6.70|5,000
+Torreón|7.80|4.00|6.50|8.50|3,500
+Guadalajara|1.70|14.70|15.00|6.50|6,000
+DEMANDA|2,000|3,200|1,700|1,800|
+
 En este tipo de problemas se vuelve recomendable utilizar otra nomenclatura para nombrar las variables, una que nos permita identificar tanto el origen como el destino. Para ello haremos uso de dos subíndices en la variable: $x_{ij}$, donde $x$ es la cantidad de cerveza que se produce en $i$, que es el origen y se transporta a $j$, que es el destino. Nuestra planta _1_ es Zacatecas, la _2_ es Torreón y la _3_ es Guadalajara. Por otro lado, Guanajuato será el distribuidor _1_, Monterrey el _2_, Chihuahua el _3_ y la Ciudad de México el _4_. Así, por ejemplo, la cantidad de cerveza que se debe mover de Torreón a Guanajuato es $x_{21}$. Lo ideal en estos problemas es dibujar un diagrama que facilite la visualización de todas las rutas, que en este caso resultan ser 12: $(3\ orígenes)(4\ destinos)=12\ rutas$. En dicho diagrama incluiremos las capacidades (ofertas) de cada planta y las demandas de cada distribuidor. Tanto plantas como distribuidores son representados como nodos.
 
 ![](images/018-transporte.png)
 
-La función objetivo se construye
+#### Función objetivo
+
+La función objetivo se construye con el costo de transporte de todas las rutas. Por lo tanto, nos remitimos a la tabla y al diagrama para encontrarlas. 
+
+ORIGEN|GUANAJUATO|MONTERREY|CHIHUAHUA|CDMX|CAPACIDAD
+:---|:---:|:---:|:---:|:---:|:---:
+Zacatecas|0.90$x_{11}$|7.50$x_{12}$|9.00$x_{13}$|6.70$x_{14}$|5,000
+Torreón|7.80$x_{21}$|4.00$x_{22}$|6.50$x_{23}$|8.50$x_{24}$|3,500
+Guadalajara|1.70$x_{31}$|14.70$x_{32}$|15.00$x_{33}$|6.50$x_{34}$|6,000
+DEMANDA|2,000|3,200|1,700|1,800||
+
+Por lo tanto nuestra función objetivo quedaría así:
+
+$$
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}
+$$
+
+Las restricciones también pueden ser fácilmente deducidas a partir de la tabla. Aunque antes de elaborarlas, cabe mencionar que existen dos tipos, las restricciones de oferta y las de demanda. Las primeras surgen de cada fila de la tabla; por el contrario, las de demanda lo hacen de cada columna:
+
+#### Restricciones de oferta  
+Es una restricción por cada nodo de origen, incluyendo todas las variables cuyo subíndice de origen coincida con el número de restricción y limitándolas a la capacidad u oferta disponible. Al ser una capacidad propiamente dicha, no puede superarse. Por ejemplo, para el caso de Zacatecas, que es el nodo de origen 1, se incluyen todas las variables cuyo subíndice es $1$, es decir, todas las variables del tipo $x_{1j}$:
+$$
+x_{11}+x_{12}+x_{13}+x_{14}\leq5,000
+$$
+Con eso en mente, las restricciones de Torreón y Guadalajara quedarían así:
+$$
+x_{21}+x_{22}+x_{23}+x_{24}\leq3,500\\
+x_{31}+x_{32}+x_{33}+x_{34}\leq6,000
+$$
+
+#### Restricciones de demanda  
+Estas se construyen de manera análoga, solo que ahora el subíndice que se considera igual al de la restricción no es el de origen, sino el de destino. También debe garantizarse que cada distribuidor reciba exactamente lo que solicita:
+
+$$
+x_{11}+x_{21}+x_{31}=2,000\\
+x_{12}+x_{22}+x_{32}=3,200\\
+x_{13}+x_{23}+x_{33}=1,700\\
+x_{14}+x_{24}+x_{34}=1,800
+$$
+#### Modelo completo
+
+El modelo completo quedaría así:
+$$
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}\\
+\ \\
+sujeto\ a:\\
+x_{11}+x_{12}+x_{13}+x_{14}\leq5,000\\
+x_{21}+x_{22}+x_{23}+x_{24}\leq3,500\\
+x_{31}+x_{32}+x_{33}+x_{34}\leq6,000\\
+x_{11}+x_{21}+x_{31}=2,000\\
+x_{12}+x_{22}+x_{32}=3,200\\
+x_{13}+x_{23}+x_{33}=1,700\\
+x_{14}+x_{24}+x_{34}=1,800\\
+x_{ij}\geq0
+$$
 
 ## Problema de asignación
 El ayuntamiento de cierta ciudad está interesada en generar la manera más barata de asignar 4 proyectos a 4 contratistas diferentes. Se debe asignar de manera garantizada un proyecto a cada contratista, así que construya el modelo que permita hacerlo al costo más bajo. Los presupuestos resumidos por contratista se muestran a continuación:
@@ -198,3 +261,51 @@ Edificio|35|30|33|39
 Puente|40|43|42|41
 Túnel|27|30|25|29
 
+Este problema se asemeja al de transporte. Las variables $x$ también tendrán dos subíndices $ij$, uno inicial que represente al proyecto $i$ y otro final al contratista $j$. En un diagrama podría verse de mejor manera cuántas variables tiene este problema:
+![](images/019-asignacion.png)
+
+#### Función objetivo
+Debe involucrar todos los costos y por ende, minimizarlos. Por lo tanto, quedaría así:
+
+$$
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}
+$$
+#### Restricciones de proyecto
+Debe asegurarse de que cada proyecto sea asignado a un solo contratista, por lo que la restricción debe garantizarlo. La manera en la que lo consigue es mediante las siguientes expresiones:
+
+$$
+parque:\ x_{11}+x_{12}+x_{13}+x_{14}=1\\
+edificio:\ x_{21}+x_{22}+x_{23}+x_{24}=1\\
+puente:\ x_{31}+x_{32}+x_{33}+x_{34}=1\\
+túnel:\ x_{41}+x_{42}+x_{43}+x_{44}=1
+$$
+
+#### Restricciones de contratista
+Cada contratista debe recibir un proyecto. Ni más ni menos. Por ello, las restricciones que se refieran a los mismos deben contener una igualdad estricta también:
+
+$$
+C1:\ x_{11}+x_{21}+x_{31}+x_{41}=1\\
+C2:\ x_{12}+x_{22}+x_{32}+x_{42}=1\\
+C3:\ x_{13}+x_{23}+x_{33}+x_{43}=1\\
+C4:\ x_{14}+x_{24}+x_{34}+x_{44}=1\\
+$$
+
+#### Modelo completo  
+El modelo completo quedaría de la siguiente manera:
+
+$$
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}\\
+\ \\
+sujeto\ a:\\
+x_{11}+x_{12}+x_{13}+x_{14}=1\\
+x_{21}+x_{22}+x_{23}+x_{24}=1\\
+x_{31}+x_{32}+x_{33}+x_{34}=1\\
+x_{41}+x_{42}+x_{43}+x_{44}=1\\
+x_{11}+x_{21}+x_{31}+x_{41}=1\\
+x_{12}+x_{22}+x_{32}+x_{42}=1\\
+x_{13}+x_{23}+x_{33}+x_{43}=1\\
+x_{14}+x_{24}+x_{34}+x_{44}=1\\
+x_{ij}\geq0
+$$
+
+A grandes rasgos, estos son modelos que resultan ser bastante comunes en problemas de programación lineal. En la siguiente unidad se abordarán métodos para su solución.

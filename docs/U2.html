@@ -644,9 +644,142 @@ x_1,x_2,x_3,x_4\geq0
 <p>Una cervecera produce en tres plantas ubicadas en Zacatecas, Torreón y Guadalajara, las cuales tienen la capacidad de producir 5,000, 3,500 y 6,000 cajas por semana, respectivamente. La cerveza se vende a través de cuatro distribuidores que se encuentran ubicados en Guanajuato, Monterrey, Chihuahua y Ciudad de México, los cuales han determinado su demanda semanal en 2,000, 3,200, 1,700 y 1,800 cajas. Plantee el modelo si sabe que llevar una caja de Zacatecas a Guanajuato cuesta <span class="math inline">\(\$0.90\)</span>, a Monterrey <span class="math inline">\(\$7.50\)</span>, a Chihuahua <span class="math inline">\(\$9.00\)</span> y a CDMX <span class="math inline">\(\$6.70\)</span>; el costo de transporte de Torreón a Guanajuato es de <span class="math inline">\(\$7.80\)</span>, a Monterrey es de <span class="math inline">\(\$4\)</span>, a Chihuahua es de <span class="math inline">\(\$6.50\)</span> y a CDMX es de <span class="math inline">\(\$8.50\)</span>; mientras que transportar cada caja desde Guadalajara hacia Guanajuato cuesta <span class="math inline">\(\$1.70\)</span>, a Monterrey <span class="math inline">\(\$14.70\)</span>, a Chihuahua <span class="math inline">\(\$15.00\)</span> y a CDMX <span class="math inline">\(\$6.50\)</span>.</p>
 <div id="solucion-3" class="section level3">
 <h3>Solución</h3>
+<p>Armemos la tabla que organice los datos de manera que sea más fácil notar las relaciones entre los mismos:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ORIGEN</th>
+<th align="center">GUANAJUATO</th>
+<th align="center">MONTERREY</th>
+<th align="center">CHIHUAHUA</th>
+<th align="center">CDMX</th>
+<th align="center">CAPACIDAD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Zacatecas</td>
+<td align="center">0.90</td>
+<td align="center">7.50</td>
+<td align="center">9.00</td>
+<td align="center">6.70</td>
+<td align="center">5,000</td>
+</tr>
+<tr class="even">
+<td align="left">Torreón</td>
+<td align="center">7.80</td>
+<td align="center">4.00</td>
+<td align="center">6.50</td>
+<td align="center">8.50</td>
+<td align="center">3,500</td>
+</tr>
+<tr class="odd">
+<td align="left">Guadalajara</td>
+<td align="center">1.70</td>
+<td align="center">14.70</td>
+<td align="center">15.00</td>
+<td align="center">6.50</td>
+<td align="center">6,000</td>
+</tr>
+<tr class="even">
+<td align="left">DEMANDA</td>
+<td align="center">2,000</td>
+<td align="center">3,200</td>
+<td align="center">1,700</td>
+<td align="center">1,800</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 <p>En este tipo de problemas se vuelve recomendable utilizar otra nomenclatura para nombrar las variables, una que nos permita identificar tanto el origen como el destino. Para ello haremos uso de dos subíndices en la variable: <span class="math inline">\(x_{ij}\)</span>, donde <span class="math inline">\(x\)</span> es la cantidad de cerveza que se produce en <span class="math inline">\(i\)</span>, que es el origen y se transporta a <span class="math inline">\(j\)</span>, que es el destino. Nuestra planta <em>1</em> es Zacatecas, la <em>2</em> es Torreón y la <em>3</em> es Guadalajara. Por otro lado, Guanajuato será el distribuidor <em>1</em>, Monterrey el <em>2</em>, Chihuahua el <em>3</em> y la Ciudad de México el <em>4</em>. Así, por ejemplo, la cantidad de cerveza que se debe mover de Torreón a Guanajuato es <span class="math inline">\(x_{21}\)</span>. Lo ideal en estos problemas es dibujar un diagrama que facilite la visualización de todas las rutas, que en este caso resultan ser 12: <span class="math inline">\((3\ orígenes)(4\ destinos)=12\ rutas\)</span>. En dicho diagrama incluiremos las capacidades (ofertas) de cada planta y las demandas de cada distribuidor. Tanto plantas como distribuidores son representados como nodos.</p>
 <p><img src="images/018-transporte.png" /></p>
-<p>La función objetivo se construye</p>
+<div id="funcion-objetivo" class="section level4">
+<h4>Función objetivo</h4>
+<p>La función objetivo se construye con el costo de transporte de todas las rutas. Por lo tanto, nos remitimos a la tabla y al diagrama para encontrarlas.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ORIGEN</th>
+<th align="center">GUANAJUATO</th>
+<th align="center">MONTERREY</th>
+<th align="center">CHIHUAHUA</th>
+<th align="center">CDMX</th>
+<th align="center">CAPACIDAD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Zacatecas</td>
+<td align="center">0.90<span class="math inline">\(x_{11}\)</span></td>
+<td align="center">7.50<span class="math inline">\(x_{12}\)</span></td>
+<td align="center">9.00<span class="math inline">\(x_{13}\)</span></td>
+<td align="center">6.70<span class="math inline">\(x_{14}\)</span></td>
+<td align="center">5,000</td>
+</tr>
+<tr class="even">
+<td align="left">Torreón</td>
+<td align="center">7.80<span class="math inline">\(x_{21}\)</span></td>
+<td align="center">4.00<span class="math inline">\(x_{22}\)</span></td>
+<td align="center">6.50<span class="math inline">\(x_{23}\)</span></td>
+<td align="center">8.50<span class="math inline">\(x_{24}\)</span></td>
+<td align="center">3,500</td>
+</tr>
+<tr class="odd">
+<td align="left">Guadalajara</td>
+<td align="center">1.70<span class="math inline">\(x_{31}\)</span></td>
+<td align="center">14.70<span class="math inline">\(x_{32}\)</span></td>
+<td align="center">15.00<span class="math inline">\(x_{33}\)</span></td>
+<td align="center">6.50<span class="math inline">\(x_{34}\)</span></td>
+<td align="center">6,000</td>
+</tr>
+<tr class="even">
+<td align="left">DEMANDA</td>
+<td align="center">2,000</td>
+<td align="center">3,200</td>
+<td align="center">1,700</td>
+<td align="center">1,800</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Por lo tanto nuestra función objetivo quedaría así:</p>
+<p><span class="math display">\[
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}
+\]</span></p>
+<p>Las restricciones también pueden ser fácilmente deducidas a partir de la tabla. Aunque antes de elaborarlas, cabe mencionar que existen dos tipos, las restricciones de oferta y las de demanda. Las primeras surgen de cada fila de la tabla; por el contrario, las de demanda lo hacen de cada columna:</p>
+</div>
+<div id="restricciones-de-oferta" class="section level4">
+<h4>Restricciones de oferta</h4>
+<p>Es una restricción por cada nodo de origen, incluyendo todas las variables cuyo subíndice de origen coincida con el número de restricción y limitándolas a la capacidad u oferta disponible. Al ser una capacidad propiamente dicha, no puede superarse. Por ejemplo, para el caso de Zacatecas, que es el nodo de origen 1, se incluyen todas las variables cuyo subíndice es <span class="math inline">\(1\)</span>, es decir, todas las variables del tipo <span class="math inline">\(x_{1j}\)</span>: <span class="math display">\[
+x_{11}+x_{12}+x_{13}+x_{14}\leq5,000
+\]</span> Con eso en mente, las restricciones de Torreón y Guadalajara quedarían así: <span class="math display">\[
+x_{21}+x_{22}+x_{23}+x_{24}\leq3,500\\
+x_{31}+x_{32}+x_{33}+x_{34}\leq6,000
+\]</span></p>
+</div>
+<div id="restricciones-de-demanda" class="section level4">
+<h4>Restricciones de demanda</h4>
+<p>Estas se construyen de manera análoga, solo que ahora el subíndice que se considera igual al de la restricción no es el de origen, sino el de destino. También debe garantizarse que cada distribuidor reciba exactamente lo que solicita:</p>
+<p><span class="math display">\[
+x_{11}+x_{21}+x_{31}=2,000\\
+x_{12}+x_{22}+x_{32}=3,200\\
+x_{13}+x_{23}+x_{33}=1,700\\
+x_{14}+x_{24}+x_{34}=1,800
+\]</span> #### Modelo completo</p>
+<p>El modelo completo quedaría así: <span class="math display">\[
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}\\
+\ \\
+sujeto\ a:\\
+x_{11}+x_{12}+x_{13}+x_{14}\leq5,000\\
+x_{21}+x_{22}+x_{23}+x_{24}\leq3,500\\
+x_{31}+x_{32}+x_{33}+x_{34}\leq6,000\\
+x_{11}+x_{21}+x_{31}=2,000\\
+x_{12}+x_{22}+x_{32}=3,200\\
+x_{13}+x_{23}+x_{33}=1,700\\
+x_{14}+x_{24}+x_{34}=1,800\\
+x_{ij}\geq0
+\]</span></p>
+</div>
 </div>
 </div>
 <div id="problema-de-asignacion" class="section level2">
@@ -693,6 +826,49 @@ x_1,x_2,x_3,x_4\geq0
 </tr>
 </tbody>
 </table>
+<p>Este problema se asemeja al de transporte. Las variables <span class="math inline">\(x\)</span> también tendrán dos subíndices <span class="math inline">\(ij\)</span>, uno inicial que represente al proyecto <span class="math inline">\(i\)</span> y otro final al contratista <span class="math inline">\(j\)</span>. En un diagrama podría verse de mejor manera cuántas variables tiene este problema: <img src="images/019-asignacion.png" /></p>
+<div id="funcion-objetivo-1" class="section level4">
+<h4>Función objetivo</h4>
+<p>Debe involucrar todos los costos y por ende, minimizarlos. Por lo tanto, quedaría así:</p>
+<p><span class="math display">\[
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}
+\]</span> #### Restricciones de proyecto Debe asegurarse de que cada proyecto sea asignado a un solo contratista, por lo que la restricción debe garantizarlo. La manera en la que lo consigue es mediante las siguientes expresiones:</p>
+<p><span class="math display">\[
+parque:\ x_{11}+x_{12}+x_{13}+x_{14}=1\\
+edificio:\ x_{21}+x_{22}+x_{23}+x_{24}=1\\
+puente:\ x_{31}+x_{32}+x_{33}+x_{34}=1\\
+túnel:\ x_{41}+x_{42}+x_{43}+x_{44}=1
+\]</span></p>
+</div>
+<div id="restricciones-de-contratista" class="section level4">
+<h4>Restricciones de contratista</h4>
+<p>Cada contratista debe recibir un proyecto. Ni más ni menos. Por ello, las restricciones que se refieran a los mismos deben contener una igualdad estricta también:</p>
+<p><span class="math display">\[
+C1:\ x_{11}+x_{21}+x_{31}+x_{41}=1\\
+C2:\ x_{12}+x_{22}+x_{32}+x_{42}=1\\
+C3:\ x_{13}+x_{23}+x_{33}+x_{43}=1\\
+C4:\ x_{14}+x_{24}+x_{34}+x_{44}=1\\
+\]</span></p>
+</div>
+<div id="modelo-completo-1" class="section level4">
+<h4>Modelo completo</h4>
+<p>El modelo completo quedaría de la siguiente manera:</p>
+<p><span class="math display">\[
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}\\
+\ \\
+sujeto\ a:\\
+x_{11}+x_{12}+x_{13}+x_{14}=1\\
+x_{21}+x_{22}+x_{23}+x_{24}=1\\
+x_{31}+x_{32}+x_{33}+x_{34}=1\\
+x_{41}+x_{42}+x_{43}+x_{44}=1\\
+x_{11}+x_{21}+x_{31}+x_{41}=1\\
+x_{12}+x_{22}+x_{32}+x_{42}=1\\
+x_{13}+x_{23}+x_{33}+x_{43}=1\\
+x_{14}+x_{24}+x_{34}+x_{44}=1\\
+x_{ij}\geq0
+\]</span></p>
+<p>A grandes rasgos, estos son modelos que resultan ser bastante comunes en problemas de programación lineal. En la siguiente unidad se abordarán métodos para su solución.</p>
+</div>
 </div>
 
 
