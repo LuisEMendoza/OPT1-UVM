@@ -958,7 +958,7 @@ Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0\\
 </tr>
 </tbody>
 </table>
-<p>Ahora debemos volver nulo todos los valores de la columna pivote, con excepción del elemento que acabamos de volver unitario. Para ello, tomamos la fila pivote y la multiplicamos por el opuesto aditivo del número que queremos eliminar. Comencemos por el elemento de la fila 0: -10,000. Para eliminarlo, multiplicamos la fila 3 por 10,000, para que al sumarse, se eliminen:</p>
+<p>Ahora debemos volver nulo todos los valores de la columna pivote, con excepción del elemento que acabamos de volver unitario. Para ello, tomamos la fila pivote y la multiplicamos por el opuesto aditivo del número que queremos eliminar. Comencemos por el elemento de la fila 0: -10,000. Para eliminarlo, multiplicamos la fila 3 por (10,000), para que al sumarse, se eliminen:</p>
 <pre class="r"><code>f0</code></pre>
 <pre><code>##   Z    X1     X2 H1 H2 H3 CTE
 ## 1 1 -9000 -10000  0  0  0   0</code></pre>
@@ -969,6 +969,612 @@ Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0\\
 f0</code></pre>
 <pre><code>##   Z    X1 X2 H1 H2       H3   CTE
 ## 1 1 -5000  0  0  0 666.6667 6e+05</code></pre>
+<p>Ahora eliminemos el 10 que se encuentra en la fila 1. Lo conseguimos multiplicando la fila 3 por (-10) y sumándolo a la fila 1:</p>
+<pre class="r"><code>f1</code></pre>
+<pre><code>##   Z X1 X2 H1 H2 H3 CTE
+## 2 0  7 10  1  0  0 700</code></pre>
+<pre class="r"><code>-10*f3</code></pre>
+<pre><code>##   Z X1  X2 H1 H2         H3  CTE
+## 4 0 -4 -10  0  0 -0.6666667 -600</code></pre>
+<pre class="r"><code>f1 &lt;- f1+(-10*f3)
+f1</code></pre>
+<pre><code>##   Z X1 X2 H1 H2         H3 CTE
+## 2 0  3  0  1  0 -0.6666667 100</code></pre>
+<p>Enseguida vamos por el elemento que queda en la columna pivote sin ser nulo, el de la fila 2, el cual es un <em>8</em>. Para cancelarlo, multiplicaremos la fila 3 por (-8) y la sumaremos a la fila 2:</p>
+<pre class="r"><code>f2</code></pre>
+<pre><code>##   Z X1 X2 H1 H2 H3 CTE
+## 3 0 10  8  0  1  0 800</code></pre>
+<pre class="r"><code>-8*f3</code></pre>
+<pre><code>##   Z   X1 X2 H1 H2         H3  CTE
+## 4 0 -3.2 -8  0  0 -0.5333333 -480</code></pre>
+<pre class="r"><code>f2 &lt;- f2+(-8*f3)
+f2</code></pre>
+<pre><code>##   Z  X1 X2 H1 H2         H3 CTE
+## 3 0 6.8  0  0  1 -0.5333333 320</code></pre>
+<p>Procedemos a actualizar nuestro tablero simplex:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">-5,000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">666.6667</td>
+<td align="center">600,000</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(H_1\)</span></td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">-0.6667</td>
+<td align="center">100</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_2\)</span></td>
+<td align="center">0</td>
+<td align="center">6.8</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.5333</td>
+<td align="center">320</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0.4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0667</td>
+<td align="center">60</td>
+</tr>
+</tbody>
+</table>
+<p>Verificamos si ya encontramos la solución óptima. La presencia de (-5,000) en la columna <span class="math inline">\(x1\)</span> indica lo contrario. Por lo tanto, hay que repetir el ciclo. Seleccionamos dicha columna como <em>pivote</em> y buscamos ahora la variable de salida o fila pivote:</p>
+<pre class="r"><code>f1[7]/f1[2]</code></pre>
+<pre><code>##        CTE
+## 2 33.33333</code></pre>
+<pre class="r"><code>f2[7]/f2[2]</code></pre>
+<pre><code>##        CTE
+## 3 47.05882</code></pre>
+<pre class="r"><code>f3[7]/f3[2]</code></pre>
+<pre><code>##   CTE
+## 4 150</code></pre>
+<p>El cociente de f1 resulta ser el menor. Por lo tanto, la variable de salida es <span class="math inline">\(H_1\)</span>, convirtiendo a la f1 en la fila pivote. El siguiente paso pues, es volver unitario al elemento pivote:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">-5,000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">666.6667</td>
+<td align="center">600,000</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center"><strong>3</strong></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">-0.6667</td>
+<td align="center">100</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_2\)</span></td>
+<td align="center">0</td>
+<td align="center">6.8</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.5333</td>
+<td align="center">320</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0.4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0667</td>
+<td align="center">60</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>f1 &lt;- f1/3
+f1</code></pre>
+<pre><code>##   Z X1 X2        H1 H2         H3      CTE
+## 2 0  1  0 0.3333333  0 -0.2222222 33.33333</code></pre>
+<p>Actualizamos el tablero:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">-5,000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">666.6667</td>
+<td align="center">600,000</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center"><strong>1</strong></td>
+<td align="center">0</td>
+<td align="center">0.3333</td>
+<td align="center">0</td>
+<td align="center">-0.2222</td>
+<td align="center">33.3333</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_2\)</span></td>
+<td align="center">0</td>
+<td align="center">6.8</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.5333</td>
+<td align="center">320</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0.4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0667</td>
+<td align="center">60</td>
+</tr>
+</tbody>
+</table>
+<p>Comencemos pues. Hay que volver nulos todos los demás elementos de la columna pivote. Comenzamos por la fila 0, sumándole el producto de la fila 1 por (5,000):</p>
+<pre class="r"><code>f0</code></pre>
+<pre><code>##   Z    X1 X2 H1 H2       H3   CTE
+## 1 1 -5000  0  0  0 666.6667 6e+05</code></pre>
+<pre class="r"><code>5000*f1</code></pre>
+<pre><code>##   Z   X1 X2       H1 H2        H3      CTE
+## 2 0 5000  0 1666.667  0 -1111.111 166666.7</code></pre>
+<pre class="r"><code>f0 &lt;- f0+5000*f1
+f0</code></pre>
+<pre><code>##   Z X1 X2       H1 H2        H3      CTE
+## 1 1  0  0 1666.667  0 -444.4444 766666.7</code></pre>
+<p>Hagamos nulo al elemento de la siguiente fila, la fila 2:</p>
+<pre class="r"><code>f2</code></pre>
+<pre><code>##   Z  X1 X2 H1 H2         H3 CTE
+## 3 0 6.8  0  0  1 -0.5333333 320</code></pre>
+<pre class="r"><code>-6.8*f1</code></pre>
+<pre><code>##   Z   X1 X2        H1 H2       H3       CTE
+## 2 0 -6.8  0 -2.266667  0 1.511111 -226.6667</code></pre>
+<pre class="r"><code>f2 &lt;- f2+(-6.8*f1)
+f2</code></pre>
+<pre><code>##   Z X1 X2        H1 H2        H3      CTE
+## 3 0  0  0 -2.266667  1 0.9777778 93.33333</code></pre>
+<p>Ahora al de la fila 3:</p>
+<pre class="r"><code>f3</code></pre>
+<pre><code>##   Z  X1 X2 H1 H2         H3 CTE
+## 4 0 0.4  1  0  0 0.06666667  60</code></pre>
+<pre class="r"><code>-0.4*f1</code></pre>
+<pre><code>##   Z   X1 X2         H1 H2         H3       CTE
+## 2 0 -0.4  0 -0.1333333  0 0.08888889 -13.33333</code></pre>
+<pre class="r"><code>f3 &lt;- f3+(-0.4*f1)
+f3</code></pre>
+<pre><code>##   Z X1 X2         H1 H2        H3      CTE
+## 4 0  0  1 -0.1333333  0 0.1555556 46.66667</code></pre>
+<p>Actualicemos el tablero:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1,666.6667</td>
+<td align="center">0</td>
+<td align="center">-444.4444</td>
+<td align="center">766,666.7</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0.3333</td>
+<td align="center">0</td>
+<td align="center">-0.2222</td>
+<td align="center">33.3333</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-2.2667</td>
+<td align="center">1</td>
+<td align="center">0.9778</td>
+<td align="center">93.3333</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.1333</td>
+<td align="center">0</td>
+<td align="center">0.1556</td>
+<td align="center">46.6667</td>
+</tr>
+</tbody>
+</table>
+<p>De nuevo podemos notar que no hemos terminado el método, ya que aún tenemos un valor negativo en la función objetivo: <span class="math inline">\(H_3\)</span>. Eso implica que debemos tomar su columna como pivote y definir cuál variable saldrá de base:</p>
+<pre class="r"><code>f1[7]/f1[6]</code></pre>
+<pre><code>##    CTE
+## 2 -150</code></pre>
+<pre class="r"><code>f2[7]/f2[6]</code></pre>
+<pre><code>##        CTE
+## 3 95.45455</code></pre>
+<pre class="r"><code>f3[7]/f3[6]</code></pre>
+<pre><code>##   CTE
+## 4 300</code></pre>
+<p>Ignorando el cociente negativo, el menor es el de la fila 2. Por lo tanto, actualizamos el tablero con la variable de entrada en la columna <em>Base</em> y resaltando el elemento pivote:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1,666.6667</td>
+<td align="center">0</td>
+<td align="center">-444.4444</td>
+<td align="center">766,666.7</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0.3333</td>
+<td align="center">0</td>
+<td align="center">-0.2222</td>
+<td align="center">33.3333</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_3\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-2.2667</td>
+<td align="center">1</td>
+<td align="center"><strong>0.9778</strong></td>
+<td align="center">93.3333</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.1333</td>
+<td align="center">0</td>
+<td align="center">0.1556</td>
+<td align="center">46.6667</td>
+</tr>
+</tbody>
+</table>
+<p>Obtenemos la nueva fila 2, volviendo unitario al pivote:</p>
+<pre class="r"><code>f2.p &lt;- f2[6]
+f2.p</code></pre>
+<pre><code>##          H3
+## 3 0.9777778</code></pre>
+<pre class="r"><code>f2 &lt;- f2/0.9777778
+f2</code></pre>
+<pre><code>##   Z X1 X2        H1       H2 H3      CTE
+## 3 0  0  0 -2.318182 1.022727  1 95.45454</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1,666.6667</td>
+<td align="center">0</td>
+<td align="center">-444.4444</td>
+<td align="center">766,666.7</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0.3333</td>
+<td align="center">0</td>
+<td align="center">-0.2222</td>
+<td align="center">33.3333</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_3\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-2.3181</td>
+<td align="center">1.0227</td>
+<td align="center"><strong>1</strong></td>
+<td align="center">95.4545</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">-0.1333</td>
+<td align="center">0</td>
+<td align="center">0.1556</td>
+<td align="center">46.6667</td>
+</tr>
+</tbody>
+</table>
+<p>Procedemos a eliminar todos los demás elementos de la columna pivote. Comenzamos con la fila 0:</p>
+<pre class="r"><code>f0</code></pre>
+<pre><code>##   Z X1 X2       H1 H2        H3      CTE
+## 1 1  0  0 1666.667  0 -444.4444 766666.7</code></pre>
+<pre class="r"><code>444.444444*f2</code></pre>
+<pre><code>##   Z X1 X2        H1       H2       H3      CTE
+## 3 0  0  0 -1030.303 454.5454 444.4444 42424.24</code></pre>
+<pre class="r"><code>f0 &lt;- f0+(444.444444*f2)
+f0</code></pre>
+<pre><code>##   Z X1 X2       H1       H2            H3      CTE
+## 1 1  0  0 636.3637 454.5454 -1.054545e-05 809090.9</code></pre>
+<p>Nótese que el valor resultante para <span class="math inline">\(H_3\)</span> es demasiado pequeño: 0.0000105. Por lo que se considera nulo. Seguimos con la fila 1:</p>
+<pre class="r"><code>f1</code></pre>
+<pre><code>##   Z X1 X2        H1 H2         H3      CTE
+## 2 0  1  0 0.3333333  0 -0.2222222 33.33333</code></pre>
+<pre class="r"><code>0.2222*f2</code></pre>
+<pre><code>##   Z X1 X2      H1      H2     H3   CTE
+## 3 0  0  0 -0.5151 0.22725 0.2222 21.21</code></pre>
+<pre class="r"><code>f1 &lt;- f1+0.2222*f2
+f1</code></pre>
+<pre><code>##   Z X1 X2         H1      H2            H3      CTE
+## 2 0  1  0 -0.1817667 0.22725 -2.222727e-05 54.54333</code></pre>
+<p>Continuamos con la fila 3:</p>
+<pre class="r"><code>f3</code></pre>
+<pre><code>##   Z X1 X2         H1 H2        H3      CTE
+## 4 0  0  1 -0.1333333  0 0.1555556 46.66667</code></pre>
+<pre class="r"><code>-0.1556*f2</code></pre>
+<pre><code>##   Z X1 X2        H1         H2      H3       CTE
+## 3 0  0  0 0.3607091 -0.1591364 -0.1556 -14.85273</code></pre>
+<pre class="r"><code>f3 &lt;- f3+(-0.1556*f2)
+f3</code></pre>
+<pre><code>##   Z X1 X2        H1         H2            H3      CTE
+## 4 0  0  1 0.2273757 -0.1591364 -4.444091e-05 31.81394</code></pre>
+<p>Es momento de actualizar el tablero:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">636.3637</td>
+<td align="center">454.5454</td>
+<td align="center">0</td>
+<td align="center">809,090.9</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">-0.1817</td>
+<td align="center">0.2272</td>
+<td align="center">0</td>
+<td align="center">54.5433</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_3\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-2.3181</td>
+<td align="center">1.0227</td>
+<td align="center">1</td>
+<td align="center">95.4545</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0.2273</td>
+<td align="center">-0.1591</td>
+<td align="center">0</td>
+<td align="center">31.8139</td>
+</tr>
+</tbody>
+</table>
+<p>Verificamos que ya hemos terminado, notando que ya no hay elementos negativos en la función objetivo o fila 0. Lo anterior implica que ya se encontró la solución óptima, la cual pasa por incluir en sí misma solo las variables que se encuentran en la columna <em>Base</em>, así que a partir de este momento, se consideran inválidas las columnas de <span class="math inline">\(H_1\)</span> y <span class="math inline">\(H_2\)</span>. El tablero queda entonces como se muestra:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">809,090.9</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">54.5433</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_3\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">95.4545</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">31.8139</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
