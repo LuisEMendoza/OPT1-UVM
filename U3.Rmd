@@ -366,7 +366,7 @@ FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
 2|$H_2$|0|10|8|0|1|0|800
 3|$x_2$|0|0.4|__1__|0|0|0.0667|60
 
-Ahora debemos volver nulo todos los valores de la columna pivote, con excepción del elemento que acabamos de volver unitario. Para ello, tomamos la fila pivote y la multiplicamos por el opuesto aditivo del número que queremos eliminar. Comencemos por el elemento de la fila 0: -10,000. Para eliminarlo, multiplicamos la fila 3 por 10,000, para que al sumarse, se eliminen:
+Ahora debemos volver nulo todos los valores de la columna pivote, con excepción del elemento que acabamos de volver unitario. Para ello, tomamos la fila pivote y la multiplicamos por el opuesto aditivo del número que queremos eliminar. Comencemos por el elemento de la fila 0: -10,000. Para eliminarlo, multiplicamos la fila 3 por (10,000), para que al sumarse, se eliminen:
 
 ```{r}
 f0
@@ -374,4 +374,176 @@ f0
 f0 <- f0+10000*f3
 f0
 ```
+
+Ahora eliminemos el 10 que se encuentra en la fila 1. Lo conseguimos multiplicando la fila 3 por (-10) y sumándolo a la fila 1:
+
+```{r}
+f1
+-10*f3
+f1 <- f1+(-10*f3)
+f1
+```
+
+Enseguida vamos por el elemento que queda en la columna pivote sin ser nulo, el de la fila 2, el cual es un _8_. Para cancelarlo, multiplicaremos la fila 3 por (-8) y la sumaremos a la fila 2:
+
+```{r}
+f2
+-8*f3
+f2 <- f2+(-8*f3)
+f2
+```
+
+Procedemos a actualizar nuestro tablero simplex:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|-5,000|0|0|0|666.6667|600,000
+1|$H_1$|0|3|0|1|0|-0.6667|100
+2|$H_2$|0|6.8|0|0|1|-0.5333|320
+3|$x_2$|0|0.4|1|0|0|0.0667|60
+
+Verificamos si ya encontramos la solución óptima. La presencia de (-5,000) en la columna $x1$ indica lo contrario. Por lo tanto, hay que repetir el ciclo. Seleccionamos dicha columna como _pivote_ y buscamos ahora la variable de salida o fila pivote:
+
+```{r}
+f1[7]/f1[2]
+f2[7]/f2[2]
+f3[7]/f3[2]
+```
+
+El cociente de f1 resulta ser el menor. Por lo tanto, la variable de salida es $H_1$, convirtiendo a la f1 en la fila pivote. El siguiente paso pues, es volver unitario al elemento pivote:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|-5,000|0|0|0|666.6667|600,000
+1|$x_1$|0|__3__|0|1|0|-0.6667|100
+2|$H_2$|0|6.8|0|0|1|-0.5333|320
+3|$x_2$|0|0.4|1|0|0|0.0667|60
+
+```{r}
+f1 <- f1/3
+f1
+```
+
+Actualizamos el tablero:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|-5,000|0|0|0|666.6667|600,000
+1|$x_1$|0|__1__|0|0.3333|0|-0.2222|33.3333
+2|$H_2$|0|6.8|0|0|1|-0.5333|320
+3|$x_2$|0|0.4|1|0|0|0.0667|60
+
+Comencemos pues. Hay que volver nulos todos los demás elementos de la columna pivote. Comenzamos por la fila 0, sumándole el producto de la fila 1 por (5,000):
+
+```{r}
+f0
+5000*f1
+f0 <- f0+5000*f1
+f0
+```
+
+Hagamos nulo al elemento de la siguiente fila, la fila 2:
+
+```{r}
+f2
+-6.8*f1
+f2 <- f2+(-6.8*f1)
+f2
+```
+
+Ahora al de la fila 3:
+
+```{r}
+f3
+-0.4*f1
+f3 <- f3+(-0.4*f1)
+f3
+```
+
+Actualicemos el tablero:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|0|0|1,666.6667|0|-444.4444|766,666.7
+1|$x_1$|0|1|0|0.3333|0|-0.2222|33.3333
+2|$H_2$|0|0|0|-2.2667|1|0.9778|93.3333
+3|$x_2$|0|0|1|-0.1333|0|0.1556|46.6667
+
+De nuevo podemos notar que no hemos terminado el método, ya que aún tenemos un valor negativo en la función objetivo: $H_3$. Eso implica que debemos tomar su columna como pivote y definir cuál variable saldrá de base:
+
+```{r}
+f1[7]/f1[6]
+f2[7]/f2[6]
+f3[7]/f3[6]
+```
+
+Ignorando el cociente negativo, el menor es el de la fila 2. Por lo tanto, actualizamos el tablero con la variable de entrada en la columna _Base_ y resaltando el elemento pivote:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|0|0|1,666.6667|0|-444.4444|766,666.7
+1|$x_1$|0|1|0|0.3333|0|-0.2222|33.3333
+2|$H_3$|0|0|0|-2.2667|1|__0.9778__|93.3333
+3|$x_2$|0|0|1|-0.1333|0|0.1556|46.6667
+
+Obtenemos la nueva fila 2, volviendo unitario al pivote:
+
+```{r}
+f2.p <- f2[6]
+f2.p
+f2 <- f2/0.9777778
+f2
+```
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|0|0|1,666.6667|0|-444.4444|766,666.7
+1|$x_1$|0|1|0|0.3333|0|-0.2222|33.3333
+2|$H_3$|0|0|0|-2.3181|1.0227|__1__|95.4545
+3|$x_2$|0|0|1|-0.1333|0|0.1556|46.6667
+
+Procedemos a eliminar todos los demás elementos de la columna pivote. Comenzamos con la fila 0:
+
+```{r}
+f0
+444.444444*f2
+f0 <- f0+(444.444444*f2)
+f0
+```
+
+Nótese que el valor resultante para $H_3$ es demasiado pequeño: 0.0000105. Por lo que se considera nulo. Seguimos con la fila 1:
+
+```{r}
+f1
+0.2222*f2
+f1 <- f1+0.2222*f2
+f1
+```
+
+Continuamos con la fila 3:
+```{r}
+f3
+-0.1556*f2
+f3 <- f3+(-0.1556*f2)
+f3
+```
+
+Es momento de actualizar el tablero:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_1$|$H_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|0|0|636.3637|454.5454|0|809,090.9
+1|$x_1$|0|1|0|-0.1817|0.2272|0|54.5433
+2|$H_3$|0|0|0|-2.3181|1.0227|1|95.4545
+3|$x_2$|0|0|1|0.2273|-0.1591|0|31.8139
+
+Verificamos que ya hemos terminado, notando que ya no hay elementos negativos en la función objetivo o fila 0. Lo anterior implica que ya se encontró la solución óptima, la cual pasa por incluir en sí misma solo las variables que se encuentran en la columna _Base_, así que a partir de este momento, se consideran inválidas las columnas de $H_1$ y $H_2$. El tablero queda entonces como se muestra:
+
+FILA|BASE|Z|$X_1$|$X_2$|$H_3$|CTE
+|---:|:---:|:---:|:---:|:---:|:---:|:---:
+0|-|1|0|0|0|809,090.9
+1|$x_1$|0|1|0|0|54.5433
+2|$H_3$|0|0|0|1|95.4545
+3|$x_2$|0|0|1|0|31.8139
+
 
