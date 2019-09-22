@@ -134,7 +134,38 @@ El valor más alto resulta ser el del tercer vértice: $\$809,150$. Este punto e
 9. La solución del problema es entonces como sigue. Ya que $x$ representa a las bibliotecas, entonces deben fabricarse 54.55 de ellas. En cuanto a los escritorios, estos son representados por $y$, por lo tanto, deben fabricarse 31.82 escritorios. Si esas cantidades se elaboran, se obtiene un ingreso total de $\$809,150.00$. 
 
 #### Solución óptima múltiple
-Usted dispone semanalmente para la producción de puertas y ventanas con 350 metros de lámina y 360 metros de ángulo. Cada puerta aporta $\$70$ a las utilidades, mientras cada ventana aporta $\$50$ por unidad. Cada puerta requiere 7 metros de lámina y 4 metros de ángulo. Cada ventana requiere 5 metros de ámina y 9 de ángulo. ¿Qué cantidad debe fabricar de cada artículo si se indica que máximo podrá vender 40 puertas?
+Una solución óptima múltiple ocurre cuando hay por lo menos dos vértices cuya sustitución en la función objetivo dan el máximo valor posible. A continuación veamos un ejercicio que lo ejemplifica.
+
+##### Ejercicio
+
+Usted dispone semanalmente para la producción de puertas y ventanas con 350 metros de lámina y 360 metros de ángulo. Cada puerta aporta $\$70$ a las utilidades, mientras cada ventana aporta $\$50$ por unidad. Cada puerta requiere 7 metros de lámina y 4 metros de ángulo. Cada ventana requiere 5 metros de lámina y 9 de ángulo. ¿Qué cantidad debe fabricar de cada artículo si se indica que máximo podrá vender 40 puertas?
+
+##### Solución
+Primero construiremos el modelo, cuyas variables resultan ser $x$ para la cantidad de puertas fabricadas y $y$ para la de las ventanas. La función objetivo se refiere a la maximización de las utilidades y cada restricción se refiere a un recurso específico. En este caso, se agrega una restricción que tiene que ver más con pronósticos de ventas que con lo funcional de un recurso limitado: el hecho de que solo podrá vender hasta un máximo de 40 puertas. El modelo resultante es el siguiente:
+
+$$
+max: Z=70x+50y\\
+\ \\
+sujeto \ a:\\
+7x+5y\leq350\\
+4x+9y\leq360\\
+x\leq40\\
+x,y\geq0
+$$
+
+El proceso para resolver el problema mediante gráficas es el mismo que en el problema anterior, con la salvedad de que se presenta una restricción univariable: $x\leq40$. Para esta restricción no es necesario encontrar sus puntos de cruce con algún eje. En realidad, se cruza solamente con el eje $x$ precisamente en el punto 40 del mismo. La zona factible que le corresponde se dirige también hacia el origen, quedando así:
+
+![](images/032-metgraf.png)
+
+Mientras tanto, las demás restricciones las trazamos de manera similar al ejemplo anterior, quedando nuestro gráfico de la siguiente manera:
+
+![](images/033-metgraf.png)
+
+Trazamos los puntos vértice:
+
+![](images/034-metgraf.png)
+
+Si sustituimos todos los puntos en la función objetivo tendremos exactamente el mismo resultado tanto en el punto $(31.4,26.04)$ como en el punto $(40,14)$. Dicho resultado es de $\$3,500$ en la función objetivo. Asi que no importa cual de estas dos cantidades fabriquemos, obtendremos la mayor ganancia.
 
 #### Solución no acotada
 Una fábrica de artesanías elabora bolsos y chamarras. La venta de un bolso aporta $\$2,000$ y consume 5 horas de mano de obra; mientras la chamarra aporta $\$3,000$ y consume 9 horas. Se deben consumir al menos 450 horas de mano de obra por mes. ¿Cuántos bolsos y chamarras debe fabricar si sabe que mínimo venderá 20 chamarras y máximo 30 bolsos?
