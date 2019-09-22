@@ -759,7 +759,7 @@ Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0\\
 10x_1+8x_2+H_2=800\\
 6x_1+15x_2+H_3=900
 \]</span></p>
-<p>Construyamos ahora el tablero simplex:</p>
+<p>Construyamos ahora el tablero simplex únicamente con los coeficientes del modelo:</p>
 <table>
 <thead>
 <tr class="header">
@@ -821,6 +821,80 @@ Z-9,000x_1-10,000x_2+0H_1+0H_2+0H_3=0\\
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>simp &lt;- read.table(&quot;datasets/001-simplex.txt&quot;, header = T)
+simp</code></pre>
+<pre><code>##   Z    X1     X2 H1 H2 H3 CTE
+## 1 1 -9000 -10000  0  0  0   0
+## 2 0     7     10  1  0  0 700
+## 3 0    10      8  0  1  0 800
+## 4 0     6     15  0  0  1 900</code></pre>
+<p>Pasemos a resolverlo. Lo primero es verificar si la solución actual es la óptima, notando que el tener valores negativos en la función objetivo implica que no es así.</p>
+<p>Lo segundo es determinar la _variable de entrada__, es decir, la que entrará a la <em>base</em>. Para ello seleccionamos el coeficiente más negativo de la fila 0: -10,000. Este pertenece a <span class="math inline">\(x_2\)</span>, por lo tanto, su columna se vuelve ahora la <strong>columna pivote</strong>.</p>
+<p>Lo tercero es definir cuál variable de base saldrá de la misma. Para ello tomamos el coeficiente de la columna <em>CTE</em> y lo dividimos entre el coeficiente que le corresponde de la columna pivote (<span class="math inline">\(x_2\)</span>), es decir, dividimos 700 entre 10; 800 entre 8 y 900 entre 15:</p>
+<pre><code>## [1]   0  70 100  60</code></pre>
+<p>Los resultados obtenidos son los anteriores. Se ignoran negativos y nulos, por lo que el menor es 60. Es el valor correspondiente a la fila 3, es decir, <span class="math inline">\(H_3\)</span>, lo cual la convierte en la <strong>fila pivote</strong>. Con esto, la tabla se modifica para dar cabida a la nueva variable básica, quitando la que deja de serlo:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">FILA</th>
+<th align="center">BASE</th>
+<th align="center">Z</th>
+<th align="center"><span class="math inline">\(X_1\)</span></th>
+<th align="center"><span class="math inline">\(X_2\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+<th align="center"><span class="math inline">\(H_2\)</span></th>
+<th align="center"><span class="math inline">\(H_3\)</span></th>
+<th align="center">CTE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="center">-</td>
+<td align="center">1</td>
+<td align="center">-9,000</td>
+<td align="center">-10,000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="center"><span class="math inline">\(H_1\)</span></td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">10</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">700</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="center"><span class="math inline">\(H_2\)</span></td>
+<td align="center">0</td>
+<td align="center">10</td>
+<td align="center">8</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">800</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center"><strong>15</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">900</td>
+</tr>
+</tbody>
+</table>
+<p>Nuestra atención debe centrarse ahora en el punto de cruce de la fila pivote con la columna pivote. Este punto, o elemento pasa a ser llamado <strong>elemento pivote</strong> y sobre este se centra el simplex, al menos en esta etapa.</p>
 </div>
 </div>
 
