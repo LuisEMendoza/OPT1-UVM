@@ -744,7 +744,7 @@ x_1,x_2,x_3,x_4\geq0
 </table>
 <p>Por lo tanto nuestra función objetivo quedaría así:</p>
 <p><span class="math display">\[
-min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+\\ 6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}
 \]</span></p>
 <p>Las restricciones también pueden ser fácilmente deducidas a partir de la tabla. Aunque antes de elaborarlas, cabe mencionar que existen dos tipos, las restricciones de oferta y las de demanda. Las primeras surgen de cada fila de la tabla; por el contrario, las de demanda lo hacen de cada columna:</p>
 </div>
@@ -765,9 +765,12 @@ x_{11}+x_{21}+x_{31}=2,000\\
 x_{12}+x_{22}+x_{32}=3,200\\
 x_{13}+x_{23}+x_{33}=1,700\\
 x_{14}+x_{24}+x_{34}=1,800
-\]</span> #### Modelo completo</p>
+\]</span></p>
+</div>
+<div id="modelo-completo-1" class="section level4">
+<h4>Modelo completo</h4>
 <p>El modelo completo quedaría así: <span class="math display">\[
-min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}\\
+min:Z=0.90x_{11}+7.50x_{12}+9.00x_{13}+6.70x_{14}+7.80x_{21}+4.00x_{22}+\\ 6.50x_{23}+8.50x_{24}+1.70x_{31}+14.70x_{32}+15.00x_{33}+6.50x_{34}\\
 \ \\
 sujeto\ a:\\
 x_{11}+x_{12}+x_{13}+x_{14}\leq5,000\\
@@ -831,7 +834,7 @@ x_{ij}\geq0
 <h4>Función objetivo</h4>
 <p>Debe involucrar todos los costos y por ende, minimizarlos. Por lo tanto, quedaría así:</p>
 <p><span class="math display">\[
-min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+\\ 40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}
 \]</span> #### Restricciones de proyecto Debe asegurarse de que cada proyecto sea asignado a un solo contratista, por lo que la restricción debe garantizarlo. La manera en la que lo consigue es mediante las siguientes expresiones:</p>
 <p><span class="math display">\[
 parque:\ x_{11}+x_{12}+x_{13}+x_{14}=1\\
@@ -850,11 +853,11 @@ C3:\ x_{13}+x_{23}+x_{33}+x_{43}=1\\
 C4:\ x_{14}+x_{24}+x_{34}+x_{44}=1\\
 \]</span></p>
 </div>
-<div id="modelo-completo-1" class="section level4">
+<div id="modelo-completo-2" class="section level4">
 <h4>Modelo completo</h4>
 <p>El modelo completo quedaría de la siguiente manera:</p>
 <p><span class="math display">\[
-min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}\\
+min:Z=50x_{11}+60x_{12}+48x_{13}+55x_{14}+35x_{21}+30x_{22}+33x_{23}+39x_{24}+\\ 40x_{31}+43x_{32}+42x_{33}+41x_{34}+27x_{41}+30x_{42}+25x_{43}+29x_{44}\\
 \ \\
 sujeto\ a:\\
 x_{11}+x_{12}+x_{13}+x_{14}=1\\
