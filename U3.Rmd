@@ -546,4 +546,83 @@ FILA|BASE|Z|$X_1$|$X_2$|$H_3$|CTE
 2|$H_3$|0|0|0|1|95.4545
 3|$x_2$|0|0|1|0|31.8139
 
+Como es notorio, el tablero queda compuesto prácticamente por ceros y unos, con excepción de la fila CTE que contiene los valores constantes del lado derecho de todas las restricciones. Ya podemos leerlo y saber la respuesta al problema: 
 
+La función objetivo, representada por $Z$, es igual a 809,090.9, siendo esto el ingreso máximo que tendrá la empresa si vende las 54.5433 bibliotecas y los 31.8139 escritorios. Datos estos últimos que pueden leerse en el mismo tablero, buscando el dato en la columna CTE que le corresponde a la Base $x_1$ y $x_2$, respectivamente. Por otro lado, el valor de 95.4545 en $H_3$ significa que esos son los rollos de lija que no serán utilizados. Recordemos que la tercera restricción (de donde salió la variable de holgura $H_3$) se refiere precisamente a rollos de papel de lija. Nótese que los resultados varían ligeramente con respecto al método gráfico, lo cual se debe a los redondeos que tuvieron que realizarse para los cálculos en dicho método.
+
+## Método por computadora
+Para dar por finalizada la unidad, abordaremos la solución del primer problema de programación lineal que se ha realizado. Hemos visto cómo resolver dicho problema por el método gráfico y por el método simplex. Ahora veremos unos cuanto comandos para resolverlo mendiante el programa estadístico R. En sí, resulta más sencillo que graficar o resolver el simplex como tal, debido a que se utiliza la capacidad de cálculo de la computadora. Sin embargo, sí que es necesario un poco de aprendizaje alterno al del modelado. Partamos del mismo problema y su modelo:
+
+$$
+f.o.:max\ Z=9,000x_1+10,000x_2\\
+\\
+\ \\
+s.a.\\
+7x_1+10x_2\leq700\\
+10x_1+8x_2\leq800\\
+6x_1+15x_2\leq900\\
+x_1,x_2\geq0
+$$
+
+Para utilizar _R_ es necesario construir otro tablero similar al método simplex, pero no es obligatorio incluir la columna de la variable $Z$. Basta con escribir una columna por variable, otra para la dirección de la restricción (el símbolo $\leq$ o $\geq$, según sea el caso) y una última para el valor constante. Por ejemplo, para este problema se construyó el siguiente tablero:
+
+```{r}
+tablero <- read.table("datasets/002-lpSolve.txt", header = T)
+tablero
+```
+
+Nótense varias cosas nuevas con esto que se acaba de leer: primero, que se utilizó la variable `tablero` para asignarle el tablero completo. Pudimos haber utilizado cualquier nombre. Segundo, que el comando `read.table` funciona para «leer» el contenido de un archivo, dirección del cual se coloca dentro de comillas en primera instancia, y de paréntesis en segunda. Por último, la frase `header = T` se refiere a que lo que sea que tenga el archivo en la primera fila, se le indica a _R_ que lo tome como el encabezado de las columnas. Si en dado caso no sabemos exactamente la ruta del archivo o tenemos pereza para buscarla o escribirla, podemos colocar la sentencia `file.choose()` en lugar de todo lo entrecomillado del comando `read.table`. Esto hará que aparezca la clásica ventana que nos permita buscar el archivo.
+
+Ahora bien, debemos preparar un poco a _R_ para resolver este tipo de problemas, ya que por defecto no contiene el paquete necesario. Para ello si estamos en _RStudio_ nos dirigimos al menú _Tools -> Install packages_ y en el recuadro _Packages_ debemos escribir `lpSolve`. Debemos asegurarnos de que en _Install from:_ esté seleccionado `CRAN` y esté seleccionado _Install dependencies_. Si nos encontramos en _R_ puro (y duro), deberemos realizar esto a golpe de comando, con la sentencia que se muestra a continuación, pero sin la almohadilla (#):
+
+```{r}
+# install.packages("lpSolve", dep = T)
+```
+
+A las preguntas que aparezcan se contesta de manera afirmativa. Si solicita un país de descarga se selecciona México. 
+
+La prueba de que el paquete se ha instalado de manera correcta es que puede cargarse en _R_ mediante:
+
+```{r}
+library(lpSolve)
+```
+
+Si no aparece ningún aviso, lpSolve se ha cargado de manera correcta. Ya podemos resolver el problema de ejemplo. Para ello, asignaremos nuevas variables con trozos del tablero que ya hemos invocado. A continuación se muestran dichas variables con los datos que se les han asignado.
+
+Creamos la variable que representará a la función objetivo, extrayendo solamente la primera fila y las dos columnas que contienen los datos relevantes de dicha fila (esto es en realidad lo que se hizo con los números dentro de los corchetes, siendo el primero el número de fila, una coma que separa y los números de columnas en rango, de 1 a 2). A eso que extrajimos lo guardamos en la variable `fo` en forma de vector:
+
+```{r}
+fo <- c(tablero[1,1:2])
+fo
+```
+
+Enseguida creamos la variable donde estarán los coeficientes de las restricciones, seleccionando ya no como vectores a los elementos que se encuentran en el tablero englobados por las filas 2, 3 y 4; y las columnas 1 y 2. 
+
+```{r}
+restricciones <- tablero[2:4,1:2]
+restricciones
+```
+
+Creamos la variable que contendrá los signos de las restricciones con las filas 2, 3 y 4 y solo la columna 3:
+
+```{r}
+direcciones <- tablero[2:4,3]
+direcciones
+```
+
+Para finalizar, creamos la variable que contendrá los valores constantes de las restricciones, con las mismas filas 2, 3 y 4 y solo la última columna, la 4.
+
+```{r}
+constantes <- tablero[2:4,4]
+constantes
+```
+
+Ya podemos resolver el problema, con el comando `lp`, cargado mediante `lpSolve`:
+
+```{r}
+solucion <- lp("max", fo, restricciones, direcciones, constantes)
+solucion
+solucion$solution
+```
+
+Cuando ejecutamos el comando `lp` el programa calcula el valor de la variable `solucion`, la cual toma lo que vale la función objetivo. Por lo tanto, $Z$ es igual a 809,090.9. Por otro lado, cuando ejecutamos `solucion$solution` estamos solicitando los valores de las variables. Nos los dan en orden, $x_1$ primero y $x_2$ después. Dichos valores coinciden con los resultados del método simplex: 54.54545 y 31.81818, respectivamente. 
