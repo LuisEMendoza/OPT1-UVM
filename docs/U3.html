@@ -491,7 +491,31 @@ Z_4=9,000(80)+10,000(0)=720,000
 </div>
 <div id="solucion-optima-multiple" class="section level4">
 <h4>Solución óptima múltiple</h4>
-<p>Usted dispone semanalmente para la producción de puertas y ventanas con 350 metros de lámina y 360 metros de ángulo. Cada puerta aporta <span class="math inline">\(\$70\)</span> a las utilidades, mientras cada ventana aporta <span class="math inline">\(\$50\)</span> por unidad. Cada puerta requiere 7 metros de lámina y 4 metros de ángulo. Cada ventana requiere 5 metros de ámina y 9 de ángulo. ¿Qué cantidad debe fabricar de cada artículo si se indica que máximo podrá vender 40 puertas?</p>
+<p>Una solución óptima múltiple ocurre cuando hay por lo menos dos vértices cuya sustitución en la función objetivo dan el máximo valor posible. A continuación veamos un ejercicio que lo ejemplifica.</p>
+<div id="ejercicio-1" class="section level5">
+<h5>Ejercicio</h5>
+<p>Usted dispone semanalmente para la producción de puertas y ventanas con 350 metros de lámina y 360 metros de ángulo. Cada puerta aporta <span class="math inline">\(\$70\)</span> a las utilidades, mientras cada ventana aporta <span class="math inline">\(\$50\)</span> por unidad. Cada puerta requiere 7 metros de lámina y 4 metros de ángulo. Cada ventana requiere 5 metros de lámina y 9 de ángulo. ¿Qué cantidad debe fabricar de cada artículo si se indica que máximo podrá vender 40 puertas?</p>
+</div>
+<div id="solucion-1" class="section level5">
+<h5>Solución</h5>
+<p>Primero construiremos el modelo, cuyas variables resultan ser <span class="math inline">\(x\)</span> para la cantidad de puertas fabricadas y <span class="math inline">\(y\)</span> para la de las ventanas. La función objetivo se refiere a la maximización de las utilidades y cada restricción se refiere a un recurso específico. En este caso, se agrega una restricción que tiene que ver más con pronósticos de ventas que con lo funcional de un recurso limitado: el hecho de que solo podrá vender hasta un máximo de 40 puertas. El modelo resultante es el siguiente:</p>
+<p><span class="math display">\[
+max: Z=70x+50y\\
+\ \\
+sujeto \ a:\\
+7x+5y\leq350\\
+4x+9y\leq360\\
+x\leq40\\
+x,y\geq0
+\]</span></p>
+<p>El proceso para resolver el problema mediante gráficas es el mismo que en el problema anterior, con la salvedad de que se presenta una restricción univariable: <span class="math inline">\(x\leq40\)</span>. Para esta restricción no es necesario encontrar sus puntos de cruce con algún eje. En realidad, se cruza solamente con el eje <span class="math inline">\(x\)</span> precisamente en el punto 40 del mismo. La zona factible que le corresponde se dirige también hacia el origen, quedando así:</p>
+<p><img src="images/032-metgraf.png" /></p>
+<p>Mientras tanto, las demás restricciones las trazamos de manera similar al ejemplo anterior, quedando nuestro gráfico de la siguiente manera:</p>
+<p><img src="images/033-metgraf.png" /></p>
+<p>Trazamos los puntos vértice:</p>
+<p><img src="images/034-metgraf.png" /></p>
+<p>Si sustituimos todos los puntos en la función objetivo tendremos exactamente el mismo resultado tanto en el punto <span class="math inline">\((31.4,26.04)\)</span> como en el punto <span class="math inline">\((40,14)\)</span>. Dicho resultado es de <span class="math inline">\(\$3,500\)</span> en la función objetivo. Asi que no importa cual de estas dos cantidades fabriquemos, obtendremos la mayor ganancia.</p>
+</div>
 </div>
 <div id="solucion-no-acotada" class="section level4">
 <h4>Solución no acotada</h4>
