@@ -531,6 +531,33 @@ x,y\geq0
 <div id="solucion-unica-optima" class="section level4">
 <h4>Solución única óptima</h4>
 <p>Una empresa dedicada a criar caballos ha establecido que es necesario suministrar diariamente a cada uno un mínimo de 200mg de vitamina A, un mínimo de 160mg de vitamina B y un mínimo de 150mg de vitamina C. Los animales son alimentados con matas de pasto y mineral, los cuales cuestan <span class="math inline">\(\$300\)</span> por mata y <span class="math inline">\(\$500\)</span> por libra de mineral. ¿Qué cantidad de cada alimento debe suministrarse a cada caballo diariamente? Se sabe que una mata de pasto aporta 4mg de vitamina A, 2mg de vitamina B y 5mg de vitamina C; mientras que la libra de mineral aporta 5mg de vitamina A, 8mg de vitamina B y 3mg de vitamina C.</p>
+<div id="solucion-2" class="section level5">
+<h5>Solución</h5>
+<p>En este caso el modelo es un poco diferente a los anteriores. Por principio de cuentas, se trata de minimizar costos, asi que podemos esperar que muchas restricciones sean del tipo <span class="math inline">\(\leq\)</span>, aunque eso sí, no es regla que deban ser así. Podemos distinguir que tenemos dos variables, las matas de pasto que serán <span class="math inline">\(x\)</span> y el mineral que será <span class="math inline">\(y\)</span>. Pasamos a modelar el caso, quedando de la siguiente manera:</p>
+<p><span class="math display">\[
+min:Z=300x+500y\\
+\ \\
+sujeto\ a:\\
+Vitamina\ A:\ 4x+5y\geq200\\
+Vitamina\ B:\ 2x+8y\geq160\\
+Vitamina\ C:\ 5x+3y\geq150\\
+x,y\geq0
+\]</span></p>
+<p>El método gráfico se lleva a cabo bajo la misma lógica explicada en los problemas anteriores, con la excepción de que las restricciones cuya desigualdad sea del tipo <span class="math inline">\(\geq\)</span> implican una zona factible del lado de la recta lejano al origen del plano. Por ejemplo, veamos cómo queda la línea representativa de la primera restricción:</p>
+<p><img src="images/035-metgraf.png" /></p>
+<p>La zona factible debe quedar del lado opuesto al origen del plano, como si estuviera pues a la derecha de la línea, quedando como en la siguiente imagen:</p>
+<p><img src="images/036-metgraf.png" /></p>
+<p>Con todo lo anterior en mente, trazamos las desigualdades y los puntos vértice posteriores. El gráfico completo quedaría así:</p>
+<p><img src="images/037-metgraf.png" /></p>
+<p>La solución se encuentra en el vértice cuyos valores en <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>, al ser sustituidos en la función objetivo, nos den el valor mínimo. Sustituyamos los resultados:</p>
+<p><span class="math display">\[
+Z_1=300(0) +500(50)=0+25000=25000\\
+Z_2=300(11.5385)+500(30.7692)=3461.55+15384.6=18846.15\\
+Z_3=300(36.3636)+500(10.9091)=10909.08+5454.55=16363.63\\
+Z_4=300(80)+500(0)=24000+0=24000
+\]</span></p>
+<p>Con base en estos resultados, podemos concluir que la mejor combinación de matas de pasto y mineral es aquella que nos asegura un costo mínimo de <span class="math inline">\(\$16,363.63\)</span>, consistiendo ésta de 36.3636 matas de pasto y 10.9091 unidades de mineral.</p>
+</div>
 </div>
 <div id="solucion-optima-multiple-1" class="section level4">
 <h4>Solución óptima múltiple</h4>
