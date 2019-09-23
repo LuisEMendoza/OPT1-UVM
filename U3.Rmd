@@ -564,6 +564,8 @@ s.a.\\
 x_1,x_2\geq0
 $$
 
+### Preparando el problema
+
 Para utilizar _R_ es necesario construir otro tablero similar al método simplex, pero no es obligatorio incluir la columna de la variable $Z$. Basta con escribir una columna por variable, otra para la dirección de la restricción (el símbolo $\leq$ o $\geq$, según sea el caso) y una última para el valor constante. Por ejemplo, para este problema se construyó el siguiente tablero:
 
 ```{r}
@@ -572,6 +574,8 @@ tablero
 ```
 
 Nótense varias cosas nuevas con esto que se acaba de leer: primero, que se utilizó la variable `tablero` para asignarle el tablero completo. Pudimos haber utilizado cualquier nombre. Segundo, que el comando `read.table` funciona para «leer» el contenido de un archivo, dirección del cual se coloca dentro de comillas en primera instancia, y de paréntesis en segunda. Por último, la frase `header = T` se refiere a que lo que sea que tenga el archivo en la primera fila, se le indica a _R_ que lo tome como el encabezado de las columnas. Si en dado caso no sabemos exactamente la ruta del archivo o tenemos pereza para buscarla o escribirla, podemos colocar la sentencia `file.choose()` en lugar de todo lo entrecomillado del comando `read.table`. Esto hará que aparezca la clásica ventana que nos permita buscar el archivo.
+
+### Preparando a R
 
 Ahora bien, debemos preparar un poco a _R_ para resolver este tipo de problemas, ya que por defecto no contiene el paquete necesario. Para ello si estamos en _RStudio_ nos dirigimos al menú _Tools -> Install packages_ y en el recuadro _Packages_ debemos escribir `lpSolve`. Debemos asegurarnos de que en _Install from:_ esté seleccionado `CRAN` y esté seleccionado _Install dependencies_. Si nos encontramos en _R_ puro (y duro), deberemos realizar esto a golpe de comando, con la sentencia que se muestra a continuación, pero sin la almohadilla (#):
 
@@ -588,6 +592,8 @@ library(lpSolve)
 ```
 
 Si no aparece ningún aviso, lpSolve se ha cargado de manera correcta. Ya podemos resolver el problema de ejemplo. Para ello, asignaremos nuevas variables con trozos del tablero que ya hemos invocado. A continuación se muestran dichas variables con los datos que se les han asignado.
+
+### Resolviendo el problema
 
 Creamos la variable que representará a la función objetivo, extrayendo solamente la primera fila y las dos columnas que contienen los datos relevantes de dicha fila (esto es en realidad lo que se hizo con los números dentro de los corchetes, siendo el primero el número de fila, una coma que separa y los números de columnas en rango, de 1 a 2). A eso que extrajimos lo guardamos en la variable `fo` en forma de vector:
 
