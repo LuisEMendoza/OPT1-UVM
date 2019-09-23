@@ -1592,6 +1592,8 @@ s.a.\\
 6x_1+15x_2\leq900\\
 x_1,x_2\geq0
 \]</span></p>
+<div id="preparando-el-problema" class="section level3">
+<h3>Preparando el problema</h3>
 <p>Para utilizar <em>R</em> es necesario construir otro tablero similar al método simplex, pero no es obligatorio incluir la columna de la variable <span class="math inline">\(Z\)</span>. Basta con escribir una columna por variable, otra para la dirección de la restricción (el símbolo <span class="math inline">\(\leq\)</span> o <span class="math inline">\(\geq\)</span>, según sea el caso) y una última para el valor constante. Por ejemplo, para este problema se construyó el siguiente tablero:</p>
 <pre class="r"><code>tablero &lt;- read.table(&quot;datasets/002-lpSolve.txt&quot;, header = T)
 tablero</code></pre>
@@ -1601,12 +1603,18 @@ tablero</code></pre>
 ## 3   10     8  &lt;= 800
 ## 4    6    15  &lt;= 900</code></pre>
 <p>Nótense varias cosas nuevas con esto que se acaba de leer: primero, que se utilizó la variable <code>tablero</code> para asignarle el tablero completo. Pudimos haber utilizado cualquier nombre. Segundo, que el comando <code>read.table</code> funciona para «leer» el contenido de un archivo, dirección del cual se coloca dentro de comillas en primera instancia, y de paréntesis en segunda. Por último, la frase <code>header = T</code> se refiere a que lo que sea que tenga el archivo en la primera fila, se le indica a <em>R</em> que lo tome como el encabezado de las columnas. Si en dado caso no sabemos exactamente la ruta del archivo o tenemos pereza para buscarla o escribirla, podemos colocar la sentencia <code>file.choose()</code> en lugar de todo lo entrecomillado del comando <code>read.table</code>. Esto hará que aparezca la clásica ventana que nos permita buscar el archivo.</p>
+</div>
+<div id="preparando-a-r" class="section level3">
+<h3>Preparando a R</h3>
 <p>Ahora bien, debemos preparar un poco a <em>R</em> para resolver este tipo de problemas, ya que por defecto no contiene el paquete necesario. Para ello si estamos en <em>RStudio</em> nos dirigimos al menú <em>Tools -&gt; Install packages</em> y en el recuadro <em>Packages</em> debemos escribir <code>lpSolve</code>. Debemos asegurarnos de que en <em>Install from:</em> esté seleccionado <code>CRAN</code> y esté seleccionado <em>Install dependencies</em>. Si nos encontramos en <em>R</em> puro (y duro), deberemos realizar esto a golpe de comando, con la sentencia que se muestra a continuación, pero sin la almohadilla (#):</p>
 <pre class="r"><code># install.packages(&quot;lpSolve&quot;, dep = T)</code></pre>
 <p>A las preguntas que aparezcan se contesta de manera afirmativa. Si solicita un país de descarga se selecciona México.</p>
 <p>La prueba de que el paquete se ha instalado de manera correcta es que puede cargarse en <em>R</em> mediante:</p>
 <pre class="r"><code>library(lpSolve)</code></pre>
 <p>Si no aparece ningún aviso, lpSolve se ha cargado de manera correcta. Ya podemos resolver el problema de ejemplo. Para ello, asignaremos nuevas variables con trozos del tablero que ya hemos invocado. A continuación se muestran dichas variables con los datos que se les han asignado.</p>
+</div>
+<div id="resolviendo-el-problema" class="section level3">
+<h3>Resolviendo el problema</h3>
 <p>Creamos la variable que representará a la función objetivo, extrayendo solamente la primera fila y las dos columnas que contienen los datos relevantes de dicha fila (esto es en realidad lo que se hizo con los números dentro de los corchetes, siendo el primero el número de fila, una coma que separa y los números de columnas en rango, de 1 a 2). A eso que extrajimos lo guardamos en la variable <code>fo</code> en forma de vector:</p>
 <pre class="r"><code>fo &lt;- c(tablero[1,1:2])
 fo</code></pre>
@@ -1638,6 +1646,7 @@ solucion</code></pre>
 <pre class="r"><code>solucion$solution</code></pre>
 <pre><code>## [1] 54.54545 31.81818</code></pre>
 <p>Cuando ejecutamos el comando <code>lp</code> el programa calcula el valor de la variable <code>solucion</code>, la cual toma lo que vale la función objetivo. Por lo tanto, <span class="math inline">\(Z\)</span> es igual a 809,090.9. Por otro lado, cuando ejecutamos <code>solucion$solution</code> estamos solicitando los valores de las variables. Nos los dan en orden, <span class="math inline">\(x_1\)</span> primero y <span class="math inline">\(x_2\)</span> después. Dichos valores coinciden con los resultados del método simplex: 54.54545 y 31.81818, respectivamente.</p>
+</div>
 </div>
 
 
